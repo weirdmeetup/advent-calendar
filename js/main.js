@@ -4,11 +4,9 @@ var Day = Backbone.Model.extend({
     this.set('author', params.author);
     this.set('title', params.title);
     this.set('link', params.link);
-    if (params.day > 0 && params.day < 26) {
-      this.set('active', true);
-    } else {
-      this.set('active', false);
-    }
+    this.set('active', params.day > 0 && params.day < 26 ? true : false);
+    var date = new Date();
+    this.set('linkActive', date.getMonth() == 11 && date.getDate() >= params.day ? true : false);
   }
 });
 var Days = Backbone.Collection.extend({ model: Day });
