@@ -71,8 +71,14 @@
       <div class="cell-inner <%= active ? 'active' : '' %>">
         <div class="cell-header"><%= day %></div>
         <div class="cell-body">
-        <%= author ? author + ' 님<br>' : '' %>
-        <%= linkActive ? '<a href="' + link + '" target="_blank">' + title + '</a>' : '<span>' + title + '</span>' %>
+        <%= force ? title : (
+          empty ? '': (
+            author ? (
+              linkActive ? author + ' 님<br><a href="' + link + '" target="_blank">' + title + '</a>' : '[예약완료]'
+            ) 
+          : '[신청대기중]'
+          )
+        ) %>
         </div>
       </div>
     </td>

@@ -2,8 +2,10 @@ var Day = Backbone.Model.extend({
   initialize: function (params) {
     this.set('day', params.day);
     this.set('author', params.author);
+    this.set('empty', params.empty);
     this.set('title', params.title);
     this.set('link', params.link);
+    this.set('force', params.force);
     this.set('active', params.day > 0 && params.day < 26 ? true : false);
     var date = new Date();
     this.set('linkActive', date.getMonth() == 11 && date.getDate() >= params.day ? true : false);
