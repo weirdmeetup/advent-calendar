@@ -115,3 +115,40 @@ body { background-color: #333; color: white; }
   50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
   100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
 }
+
+@media screen and (max-width: 800px) {
+  table,
+  tbody,
+  tr,
+  th,
+  td {
+    display: block;
+    width: auto;
+  }
+  thead {
+    display: none;
+  }
+  td.cell {
+    width: auto;
+  }
+  td.cell .cell-header:before {
+    color: #ddd;
+    text-transform: uppercase;
+    padding: 0.1em 0.5em;
+    font-size: 0.8em;
+    margin-right: 0.5em;
+    background: #760E10;
+    border-radius: 5px;
+    width: 2.5em;
+    text-align: center;
+    display: inline-block;
+  }
+
+  td.cell:nth-of-type(7n+1) .cell-header:before { content: "Mon"; }
+  td.cell:nth-of-type(7n+2) .cell-header:before { content: "Tue"; }
+  td.cell:nth-of-type(7n+3) .cell-header:before { content: "Wed"; }
+  td.cell:nth-of-type(7n+4) .cell-header:before { content: "Thu"; }
+  td.cell:nth-of-type(7n+5) .cell-header:before { content: "Fri"; }
+  td.cell:nth-of-type(7n+6) .cell-header:before { content: "Sat"; color: #fff; background: blue; }
+  td.cell:nth-of-type(7n+7) .cell-header:before { content: "Sun"; color: #fff; background: red; }
+}
