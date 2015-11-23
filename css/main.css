@@ -1,0 +1,117 @@
+#header { color: white; }
+h3 {
+  margin-top: 5px;
+  margin-bottom: 0px;
+  text-indent: 30px;
+  font-size: 30px;
+}
+h4 {
+  margin-top: 0px;
+  margin-bottom: 5px;
+  text-align: right;
+}
+h4 div { display: inline-block; }
+marquee {
+  margin-left: 10%;
+  width: 80%;
+}
+table {
+  display: table;
+  border-collapse: initial;
+  width: 100%;
+  padding: 2px;
+  border: 1px solid black;
+  box-shadow: 1px 1px 4px 1px #bcbcbc;
+}
+thead tr {
+  width: 100px;
+  height: 30px;
+  background-color: #760E10;
+  color: white;
+  text-align: center;
+}
+thead tr div {
+  border: 1px solid white;
+  padding: 5px;
+  padding-top: 10px;
+}
+td.cell {
+  width: 100px;
+  height: 80px;
+  border: 1px solid white;
+  background-color: white;
+}
+.cell-inner {
+  height: 100%;
+  border: 1px solid black;
+}
+.cell-header {
+  padding: 7px;
+  background-color: #BC0003;
+  color: gray;
+}
+.active > .cell-header { color: white; }
+.active a { color: #a94442; }
+a { color: #bcbcbc; text-decoration: none; }
+.cell-body { padding: 8px; height: 80px; color: black; }
+.cell-body:hover { animation: blinker 1s linear infinite; }
+@keyframes blinker { 50% { opacity: 0.0; } }
+
+#container {
+  padding-top: 30px;
+  width: 80%;
+  margin: 0px auto;
+}
+
+#notice {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+#description {
+  color: #eee;
+  padding: 20px;
+}
+
+body { background-color: #333; color: white; }
+
+#snow {
+  background: none;
+  font-family: Androgyne;
+  background-image: url('http://www.wearewebstars.dk/codepen/img/s1.png'), url('http://www.wearewebstars.dk/codepen/img//s2.png'), url('http://www.wearewebstars.dk/codepen/img//s3.png');
+  height: 150%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: -1;
+  -webkit-animation: snow 10s linear infinite;
+  -moz-animation: snow 10s linear infinite;
+  -ms-animation: snow 10s linear infinite;
+  animation: snow 10s linear infinite;
+}
+@keyframes snow {
+  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+  100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
+}
+@-moz-keyframes snow {
+  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+  100% {background-position: 400px 1000px, 200px 400px, 100px 300px;}
+}
+@-webkit-keyframes snow {
+  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+  100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
+}
+@-ms-keyframes snow {
+  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+  50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+  100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
+}

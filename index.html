@@ -1,0 +1,72 @@
+<!doctype html>
+<html class="no-js" lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+  </head>
+  <body>
+    <!--[if lt IE 8]>
+      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <div id="snow"></div>
+
+    <section id="container">
+      <section id="header">
+        <div id="notice">Firefox, Chrome, Safari, IE 8.0 이상에서 정상적으로 보이지 않을 수 있습니다.</div>
+        <marquee direction="left" behavior="alternate">독후감도 안쓰시던데 그러고도 읽은 겁니까?</marquee>
+        <h3>Weird Advent Calendar 2015</h3>
+        <section id="description">
+          <p>Blabla</p>
+        </section>
+        <h4>Powered by WEIRDMEETUP</div></h4>
+      </section>
+      <section id="calendar">
+        <table>
+          <thead>
+            <tr>
+              <td><div>Sun</div></td>
+              <td><div>Mon</div></td>
+              <td><div>Tue</div></td>
+              <td><div>Wed</div></td>
+              <td><div>Thr</div></td>
+              <td><div>Fri</div></td>
+              <td><div>Sat</div></td>
+            </tr>
+          </thead>
+          <tbody id="table-calendar"></tbody>
+        </table>
+      </section>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.3/backbone-min.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script type="text/template" id="cell-day">
+    <td class="cell">
+      <div class="cell-inner <%= active ? 'active' : '' %>">
+        <div class="cell-header"><%= day %></div>
+        <div class="cell-body">
+        <%= author ? author + ' 님<br>' : '' %>
+        <a href="<%= link %>" target="_blank"><%= title ? title : ''  %></a>
+        </div>
+      </div>
+    </td>
+    </script>
+    <script type="text/template" id="cell-week">
+    <tr><%= days %></tr>
+    </script>
+  </body>
+</html>
