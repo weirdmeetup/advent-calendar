@@ -22,7 +22,7 @@ window.calendar = [
   { day: 19, author: null, title: null, link: null },
   { day: 20, author: null, title: null, link: null },
   { day: 21, author: null, title: null, link: null },
-  { day: 22, author: null, title: null, link: null },
+  { day: 22, author: '@raccoony', title: '멀티미디어 : 바그너에서 가상현실까지', link: 'https://raccoonyy.github.io/' },
   { day: 23, author: null, title: null, link: null },
   { day: 24, author: null, title: null, link: null },
   { day: 25, title: 'X-Mas', force: true },
