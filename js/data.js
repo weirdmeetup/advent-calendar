@@ -8,7 +8,7 @@ window.calendar = [
   { day: 5, author: null, title: null, link: null },
   { day: 6, author: null, title: null, link: null },
   { day: 7, author: null, title: null, link: null },
-  { day: 8, author: null, title: null, link: null },
+  { day: 8, author: @chiyodad, title: '다시 시작하는 프로그래밍 : 자바스크립트로 배우는 웹 프로그래밍 A to Z', link: 'https://medium.com/@chiyodad' },
   { day: 9, author: null, title: null, link: null },
   { day: 10, author: null, title: null, link: null },
   { day: 11, author: null, title: null, link: null },
