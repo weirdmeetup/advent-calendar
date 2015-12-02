@@ -52,7 +52,22 @@ var CalendarView = Backbone.View.extend({
 });
 
 $(document).ready(function () {
-  new CalendarView(window.calendar);
-  var height = $(document).height() + 40;
-  $('#snow').height(height + 'px');
+  var id = '1S0wZbXqyY6dASpodIBaL5731UYdtIOoocWA3TCCQZ1s';
+  var url = 'https://spreadsheets.google.com/feeds/list/' + id + '/od6/public/values?alt=json';
+
+  $.getJSON(url, function (json) {
+    var list = _.each(json.feed.entry, function (row) {
+      var day = Number(row['gsx$게제일'].$t.replace('일', ''))
+      if (day == 0) {return;};
+      window.calendar[day + 1] = {
+        day: day,
+        author: row['gsx$이메일슬랙id'].$t.split(' ')[1],
+        title: row['gsx$도서제목'].$t,
+        link: row['gsx$게제할블로그주소'].$t
+      };
+    })
+    new CalendarView(window.calendar);
+    var height = $(document).height() + 40;
+    $('#snow').height(height + 'px');
+  });
 });
