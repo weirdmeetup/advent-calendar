@@ -2,7 +2,7 @@ window.calendar = [
   { day: 29, empty: true},
   { day: 30, empty: true},
   { day: 1, author: '@minieetea', title: '소프트웨어 장인', link: 'http://minieetea.com/OsfSm' },
-  { day: 2, author: '@sjyun', title: '팟캐스트 나는 프로그래머다: 뉴욕, 서울, 도쿄 개발자의 촌철살인 IT 이야기', link: 'http://devluna.blogspot.kr/search?max-results=1' },
+  { day: 2, author: '@sjyun', title: '팟캐스트 나는 프로그래머다: 뉴욕, 서울, 도쿄 개발자의 촌철살인 IT 이야기', link: 'http://devluna.blogspot.kr/2015/11/it.html' },
   { day: 3, author: '@haruair', title: 'Thinking, Fast and Slow', link: 'http://haruair.com' },
   { day: 4, author: '@ash84', title: '승려와 수수께끼', link: 'http://ash84.net' },
   { day: 5, author: null, title: null, link: null },
