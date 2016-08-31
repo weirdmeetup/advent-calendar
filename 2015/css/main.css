@@ -151,3 +151,12 @@ body { background-color: #333; color: white; }
   td.cell:nth-of-type(7n+6) .cell-header:before { content: "Sat"; color: #fff; background: blue; }
   td.cell:nth-of-type(7n+7) .cell-header:before { content: "Sun"; color: #fff; background: red; }
 }
+
+
+.back-link {
+  text-align: right;
+}
+
+.back-link > a {
+  color: white;
+}
