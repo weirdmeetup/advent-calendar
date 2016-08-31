@@ -3,90 +3,16 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Weird Advent Calendar 2015</title>
+    <title>Weird Advent Calendar</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/main.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
   </head>
   <body>
-    <!--                                         -->
-    <!--                                         -->
-    <!--                                         -->
-    <!--                                         -->
-    <!--                                         -->
-    <!--                                         -->
-    <!--         안돼 돌아가. 보여줄 생각 없어.        -->
-    <!--                                         -->
-    <!--                                         -->
-    <!--                                         -->
-    <!--                                         -->
-    <!--                                         -->
-    <!--                                         -->
-
-    <!--[if lt IE 8]>
-      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
-
-    <div id="snow"></div>
-
-    <section id="container">
-      <section id="header">
-        <div id="notice">Firefox, Chrome, Safari, IE 8.0 이상에서 정상적으로 보이지 않을 수 있습니다.</div>
-        <marquee direction="left" behavior="alternate">독후감도 안쓰시던데 그러고도 읽은 겁니까?</marquee>
-        <h3>Weird Advent Calendar 2015</h3>
-        <section id="description">
-          <p>Advent Calendar는 카톨릭 달력에서 말하는 대림절(12/1~24)을 의미ㅎ..... 자세한 것은 <a href="https://www.google.co.kr/search?q=대림절">구글을 참고</a>해보세요. <del>검색을 생활화 합시다</del> <p>많은 온라인 커뮤니티들은 이 캘린더 형식을 빌어 의미있는 글을 연재하곤 하는데, 이상한모임도 좀 낯설지만 의미있는 기념을 해보려고 합니다.</p>
-          <p>새해만 되면 '올해는 책 좀 읽어야지'하지만 실행하는 것은 쉽지 않지요. 작심 삼일만에 책만 몽땅 구입하고, 결국 끝까지 읽는 비율은 많지 않습니다. 그래서 못다 이룬 새해 목표를 연말 즈음 이루어드리고자 <font color="red">올해는 책을 읽었습니다</font> 컨셉으로 독후감을 연재하고자 합니다. 신청은 이상한모임 필진이 아니더라도 블로그가 있다면 누구나 할 수 있으니, <a href="http://goo.gl/forms/rLXoBNIKPO"><font color="yellow"> 여기서 신청해보세요</font></a></p>
-          <p>부디 여러분의 뽐뿌가 2016년 새해 다짐을 위한 버킷리스트로 활용되길. 아듀 2015, 해피뉴이어 2016! </p>
-        </section>
-        <h4>Powered by WEIRDMEETUP</div></h4>
-      </section>
-      <section id="calendar">
-        <table>
-          <thead>
-            <tr>
-              <td><div>Sun</div></td>
-              <td><div>Mon</div></td>
-              <td><div>Tue</div></td>
-              <td><div>Wed</div></td>
-              <td><div>Thr</div></td>
-              <td><div>Fri</div></td>
-              <td><div>Sat</div></td>
-            </tr>
-          </thead>
-          <tbody id="table-calendar"></tbody>
-        </table>
-      </section>
-    </section>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.3/backbone-min.js"></script>
-    <script src="js/data.js"></script>
-    <script src="js/main.js"></script>
-    <script type="text/template" id="cell-day">
-    <td class="cell">
-      <div class="cell-inner <%= active ? 'active' : '' %>">
-        <div class="cell-header"><%= day %></div>
-        <div class="cell-body">
-        <%= force ? title : (
-          empty ? '': (
-            author ? (
-              linkActive ? author + ' 님<br><a href="' + link + '" target="_blank">' + title + '</a>' : '<font color = \'blue\'>[예약완료]</font><br>' + author
-            ) 
-          : '[신청대기중]'
-          )
-        ) %>
-        </div>
-      </div>
-    </td>
-    </script>
-    <script type="text/template" id="cell-week">
-    <tr><%= days %></tr>
-    </script>
+    <h3>연도별 달력으로 이동하기</h3>
+    <ul>
+      <li><a href="/2015">2015년 달력 보러가기</a></li>
+    </ul>
   </body>
 </html>

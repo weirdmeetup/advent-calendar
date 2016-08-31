@@ -6,9 +6,8 @@ var Day = Backbone.Model.extend({
     this.set('title', params.title);
     this.set('link', params.link);
     this.set('force', params.force);
-    this.set('active', params.day > 0 && params.day < 26 ? true : false);
     var date = new Date();
-    this.set('linkActive', date.getMonth() == 11 && date.getDate() >= params.day ? true : false);
+    this.set('linkActive', true);
   }
 });
 var Days = Backbone.Collection.extend({ model: Day });
@@ -26,8 +25,8 @@ var CalendarView = Backbone.View.extend({
     }, this);
     this.render();
   },
-  render: function () {
 
+  render: function () {
     var table = this.collection.reduce(function (table, day) {
       var lastRow = _.last(table);
       if (_.size(_.last(table)) == 7) {
@@ -46,6 +45,7 @@ var CalendarView = Backbone.View.extend({
     this.$el.html(html);
     return this;
   },
+
   renderCelltoHtml: function (day) {
     return this.dayTemplate(day.attributes);
   }
