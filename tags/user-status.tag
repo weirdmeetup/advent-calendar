@@ -1,6 +1,6 @@
 <user-status>
-  <a if={ !this.opts.logined } href="#" onclick={ clkSignIn }>Log-in</a>
-  <a if={ this.opts.logined } href="#" onclick={ clkSignOut }>Log-out</a>
+  <a if={ !this.opts.uid } href="#" onclick={ clkSignIn }>Log-in</a>
+  <a if={ this.opts.uid } href="#" onclick={ clkSignOut }>Log-out</a>
 
   <script>
   clkSignIn() {

@@ -7,6 +7,6 @@
 
   <script>
     this.items = opts.items
-    this.logined = opts.logined
+    this.uid = opts.uid
   </script>
 </calendar>

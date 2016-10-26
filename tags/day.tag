@@ -6,6 +6,10 @@
     </span>
     <span if={ !isEmpty() }>
       { day }일: { author }님의 <a href={url} target="_blank">{title}</a>
+      <span if={ isOwned() }>
+        <a href="#" if={ !formOpened } onclick={ editForm }>고치기</a>
+        <a href="#" if={ !formOpened } onclick={ delete }>취소하기</a>
+      </span>
     </span>
     <br>
     <div if={ formOpened }>
@@ -14,6 +18,7 @@
       <input name="day[title]" type="text" placeholder="제목">
       <input name="day[url]" type="text" placeholder="URL">
       <a href="#" onclick={ submit }>제출하기</a>
+      <a href="#" onclick={ closeForm }>닫기</a>
     </div>
   </li>
 
@@ -22,6 +27,10 @@
 
     isEmpty() {
       return this.author === ""
+    }
+
+    isOwned() {
+      return this.parent.uid === this.uid
     }
 
     submit() {
@@ -35,8 +44,26 @@
       return false
     }
 
+    delete() {
+      this.parent.opts.deleteDay(this.day)
+      this.parent.opts.loadData()
+    }
+
+    closeForm() {
+      this.formOpened = false
+    }
+
     openNewForm() {
-      if(!this.parent.logined) { alert("Please log-in"); return }
+      if(!this.parent.uid) { alert("Please log-in"); return }
+      this.formOpened = true
+    }
+
+    editForm() {
+      if(!this.parent.uid) { alert("Please log-in"); return }
+
+      this["day[author]"].value = this.author
+      this["day[title]"].value = this.title
+      this["day[url]"].value = this.url
       this.formOpened = true
     }
   </script>

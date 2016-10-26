@@ -11,10 +11,15 @@ firebase.initializeApp(config)
 const saveData = (day, author, title, url) => {
   firebase.database().ref(`days/${day - 1}`).set({
     day: day,
+    uid: adventCalendar.uid,
     author: author,
     title: title,
     url: url
   })
+}
+
+const deleteData = day => {
+  firebase.database().ref(`days/${day - 1}`).remove()
 }
 
 const loadData = () => {
@@ -29,7 +34,6 @@ const provider = new firebase.auth.GoogleAuthProvider()
 
 const signIn = () => {
   firebase.auth().signInWithRedirect(provider).then(result => {
-    // const token = result.credential.accessToken
     const user = result.user
     // ...
   }).catch(error => {
@@ -54,11 +58,11 @@ window.signOut = signOut
 firebase.auth().onAuthStateChanged(user => {
   if (user) {
     console.log("Logined")
-    adventCalendar.logined = true
+    adventCalendar.uid = user.uid
     renderApp()
   } else {
     console.log("Guest")
-    adventCalendar.logined = false
+    adventCalendar.uid = null
     renderApp()
   }
 })
@@ -72,8 +76,9 @@ const defaultItems = () => {
 }
 
 const buildItems = (defaultItems, fetchedItems) => {
+  const ensuredFetchedItems = fetchedItems || []
   const mergedItems = defaultItems
-  fetchedItems.forEach(item => {
+  ensuredFetchedItems.forEach(item => {
     mergedItems[item.day - 1] = item
   })
   return mergedItems
@@ -81,23 +86,24 @@ const buildItems = (defaultItems, fetchedItems) => {
 
 // Init Riot app
 const adventCalendar = {
-  logined: false,
+  uid: null,
   items : defaultItems()
 }
 
 window.adventCalendar = adventCalendar
 
 const renderApp = () => {
-  const logined = adventCalendar.logined
+  const uid = adventCalendar.uid
   const items = adventCalendar.items
 
   riot.mount("user-status", { signIn: signIn,
                               signOut: signOut,
-                              logined: logined })
+                              uid: uid })
   riot.mount("calendar", {
     items: items,
-    logined: logined,
+    uid: uid,
     saveDay: saveData,
+    deleteDay: deleteData,
     loadData: loadData })
 }
 

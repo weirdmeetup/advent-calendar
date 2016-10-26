@@ -13,10 +13,15 @@ firebase.initializeApp(config);
 var saveData = function saveData(day, author, title, url) {
   firebase.database().ref("days/" + (day - 1)).set({
     day: day,
+    uid: adventCalendar.uid,
     author: author,
     title: title,
     url: url
   });
+};
+
+var deleteData = function deleteData(day) {
+  firebase.database().ref("days/" + (day - 1)).remove();
 };
 
 var loadData = function loadData() {
@@ -31,7 +36,6 @@ var provider = new firebase.auth.GoogleAuthProvider();
 
 var signIn = function signIn() {
   firebase.auth().signInWithRedirect(provider).then(function (result) {
-    // const token = result.credential.accessToken
     var user = result.user;
     // ...
   }).catch(function (error) {
@@ -56,11 +60,11 @@ window.signOut = signOut;
 firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
     console.log("Logined");
-    adventCalendar.logined = true;
+    adventCalendar.uid = user.uid;
     renderApp();
   } else {
     console.log("Guest");
-    adventCalendar.logined = false;
+    adventCalendar.uid = null;
     renderApp();
   }
 });
@@ -74,8 +78,9 @@ var defaultItems = function defaultItems() {
 };
 
 var buildItems = function buildItems(defaultItems, fetchedItems) {
+  var ensuredFetchedItems = fetchedItems || [];
   var mergedItems = defaultItems;
-  fetchedItems.forEach(function (item) {
+  ensuredFetchedItems.forEach(function (item) {
     mergedItems[item.day - 1] = item;
   });
   return mergedItems;
@@ -83,23 +88,24 @@ var buildItems = function buildItems(defaultItems, fetchedItems) {
 
 // Init Riot app
 var adventCalendar = {
-  logined: false,
+  uid: null,
   items: defaultItems()
 };
 
 window.adventCalendar = adventCalendar;
 
 var renderApp = function renderApp() {
-  var logined = adventCalendar.logined;
+  var uid = adventCalendar.uid;
   var items = adventCalendar.items;
 
   riot.mount("user-status", { signIn: signIn,
     signOut: signOut,
-    logined: logined });
+    uid: uid });
   riot.mount("calendar", {
     items: items,
-    logined: logined,
+    uid: uid,
     saveDay: saveData,
+    deleteDay: deleteData,
     loadData: loadData });
 };
 
