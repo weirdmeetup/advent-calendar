@@ -69,7 +69,7 @@ firebase.auth().onAuthStateChanged(user => {
 
 const defaultItems = () => {
   const arr = []
-  for(let i=1; i !=32; i++) {
+  for(let i=1; i !=26; i++) {
     arr.push({day: i, author: "", title: "", url: ""})
   }
   return arr
