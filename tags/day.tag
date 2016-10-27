@@ -1,17 +1,29 @@
 <day>
-  <li>
-    <span if={ isEmpty() }>
-      { day }일: 비어있습니다.
+  <div class="two columns" if={day > 25}>
+    <p>{ day }일</p>
+  </div>
+  <div class="two columns" if={day < 26}>
+    <p if={ isEmpty() }>
+      { day }일
+      <br>
+      비어있습니다.
+      <br>
       <a href="#" if={ !formOpened } onclick={ openNewForm }>등록하기</a>
-    </span>
-    <span if={ !isEmpty() }>
-      { day }일: { author }님의 <a href={url} target="_blank">{title}</a>
+    </p>
+
+    <p if={ !isEmpty() }>
+      { day }일:
+      <br>
+      { author }님의 <a href={url} target="_blank">{title}</a>
+      <br>
       <span if={ isOwned() }>
         <a href="#" if={ !formOpened } onclick={ editForm }>고치기</a>
         <a href="#" if={ !formOpened } onclick={ delete }>취소하기</a>
       </span>
-    </span>
+    </p>
+
     <br>
+
     <div if={ formOpened }>
       <input name="day[id]" type="hidden" value={ day }>
       <input name="day[author]" type="text" placeholder="작성자 이름">
@@ -20,7 +32,7 @@
       <a href="#" onclick={ submit }>제출하기</a>
       <a href="#" onclick={ closeForm }>닫기</a>
     </div>
-  </li>
+  </div>
 
   <script>
     this.formOpened = false
@@ -30,7 +42,7 @@
     }
 
     isOwned() {
-      return this.parent.uid === this.uid
+      return this.parent.parent.uid === this.uid
     }
 
     submit() {
@@ -39,14 +51,14 @@
       const title = this["day[title]"].value
       const url = this["day[url]"].value
 
-      this.parent.opts.saveDay(day, author, title, url)
-      this.parent.opts.loadData()
+      this.parent.parent.opts.saveDay(day, author, title, url)
+      this.parent.parent.opts.loadData()
       return false
     }
 
     delete() {
-      this.parent.opts.deleteDay(this.day)
-      this.parent.opts.loadData()
+      this.parent.parent.opts.deleteDay(this.day)
+      this.parent.parent.opts.loadData()
     }
 
     closeForm() {

@@ -75,19 +75,36 @@ const defaultItems = () => {
   return arr
 }
 
+const groupItemsByWeek = (items, year) => {
+  const startWeekday = new Date(`${year}-12-1`).getDay()
+  const paddingDay = 7 - startWeekday
+  const arr = []
+  for(let i=0; i!= paddingDay; i++) {
+    arr.push({day: 31 - paddingDay + i})
+  }
+  const allDay = arr.concat(items)
+
+  const weeks = []
+  while(allDay.length !== 0) {
+    weeks.push({days: allDay.splice(0, 7)})
+  }
+  return weeks
+}
+
 const buildItems = (defaultItems, fetchedItems) => {
   const ensuredFetchedItems = fetchedItems || []
   const mergedItems = defaultItems
   ensuredFetchedItems.forEach(item => {
     mergedItems[item.day - 1] = item
   })
-  return mergedItems
+  return groupItemsByWeek(mergedItems, adventCalendar.year)
 }
 
 // Init Riot app
 const adventCalendar = {
   uid: null,
-  items : defaultItems()
+  year: 2016,
+  items: groupItemsByWeek(defaultItems(), 2016)
 }
 
 window.adventCalendar = adventCalendar
@@ -96,9 +113,9 @@ const renderApp = () => {
   const uid = adventCalendar.uid
   const items = adventCalendar.items
 
-  riot.mount("user-status", { signIn: signIn,
-                              signOut: signOut,
-                              uid: uid })
+  riot.mount("header-nav", { signIn: signIn,
+                             signOut: signOut,
+                             uid: uid })
   riot.mount("calendar", {
     items: items,
     uid: uid,

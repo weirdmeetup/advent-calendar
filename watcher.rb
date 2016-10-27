@@ -1,4 +1,4 @@
 loop do
-  `./node_modules/.bin/babel src -d js`
+  `npm run build`
   sleep 1
 end

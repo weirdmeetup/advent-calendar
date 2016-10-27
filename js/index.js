@@ -77,19 +77,36 @@ var defaultItems = function defaultItems() {
   return arr;
 };
 
+var groupItemsByWeek = function groupItemsByWeek(items, year) {
+  var startWeekday = new Date(year + "-12-1").getDay();
+  var paddingDay = 7 - startWeekday;
+  var arr = [];
+  for (var i = 0; i != paddingDay; i++) {
+    arr.push({ day: 31 - paddingDay + i });
+  }
+  var allDay = arr.concat(items);
+
+  var weeks = [];
+  while (allDay.length !== 0) {
+    weeks.push({ days: allDay.splice(0, 7) });
+  }
+  return weeks;
+};
+
 var buildItems = function buildItems(defaultItems, fetchedItems) {
   var ensuredFetchedItems = fetchedItems || [];
   var mergedItems = defaultItems;
   ensuredFetchedItems.forEach(function (item) {
     mergedItems[item.day - 1] = item;
   });
-  return mergedItems;
+  return groupItemsByWeek(mergedItems, adventCalendar.year);
 };
 
 // Init Riot app
 var adventCalendar = {
   uid: null,
-  items: defaultItems()
+  year: 2016,
+  items: groupItemsByWeek(defaultItems(), 2016)
 };
 
 window.adventCalendar = adventCalendar;
@@ -98,7 +115,7 @@ var renderApp = function renderApp() {
   var uid = adventCalendar.uid;
   var items = adventCalendar.items;
 
-  riot.mount("user-status", { signIn: signIn,
+  riot.mount("header-nav", { signIn: signIn,
     signOut: signOut,
     uid: uid });
   riot.mount("calendar", {
