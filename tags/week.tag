@@ -1,5 +1,3 @@
 <week>
-  <div class="row">
-    <day each="{ days }"></day>
-  </div>
+  <td each={ days } data-is="day" class="cell"></td>
 </week>

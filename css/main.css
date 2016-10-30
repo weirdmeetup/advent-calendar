@@ -6,10 +6,115 @@
   float: left;
 }
 
+.text-right {
+  text-align: right;
+}
+
 .text-center {
   text-align: center;
 }
 
 .two.columns {
-  margin-left: 0;
+  margin-left: 7px;
 }
+
+body {
+  background-color: #632412;
+  color: #eee;
+  font-family: sans-serif;
+}
+
+.container {
+  background-color: #7F1C00;
+  padding: 10px;
+}
+
+.button {
+  background-color: white;
+}
+
+/* Table */
+table {
+  display: table;
+  border-collapse: initial;
+  width: 100%;
+  padding: 2px;
+}
+
+thead tr {
+  width: 100px;
+  height: 30px;
+  background-color: #760E10;
+}
+
+thead tr td {
+  padding: 7px;
+  text-align: center;
+}
+
+thead td {
+  border-top: 1px solid #E1E1E1;
+  border-bottom: 1px solid #E1E1E1;
+}
+
+.cell {
+  background-color: white;
+  min-height: 80px;
+  width: 100px;
+  padding: 0px;
+}
+
+.cell-header {
+  padding: 7px;
+  background-color: #BC0003;
+  color: white;
+}
+
+.cell-body {
+  padding: 8px;
+  min-height: 80px;
+  color: black;
+}
+
+/* Table: mobile */
+@media screen and (max-width: 800px) {
+  table,
+  tbody,
+  tr,
+  th,
+  td {
+    display: block;
+    width: auto;
+  }
+  thead {
+    display: none;
+  }
+  td.cell {
+    width: auto;
+  }
+  td.cell .cell-header:before {
+    color: #ddd;
+    text-transform: uppercase;
+    padding: 0.1em 0.5em;
+    font-size: 0.8em;
+    margin-right: 0.5em;
+    background: #760E10;
+    border-radius: 5px;
+    width: 2.5em;
+    text-align: center;
+    display: inline-block;
+  }
+
+  td.cell:nth-of-type(7n+1) .cell-header:before { content: "Mon"; }
+  td.cell:nth-of-type(7n+2) .cell-header:before { content: "Tue"; }
+  td.cell:nth-of-type(7n+3) .cell-header:before { content: "Wed"; }
+  td.cell:nth-of-type(7n+4) .cell-header:before { content: "Thu"; }
+  td.cell:nth-of-type(7n+5) .cell-header:before { content: "Fri"; }
+  td.cell:nth-of-type(7n+6) .cell-header:before { content: "Sat"; color: #fff; background: blue; }
+  td.cell:nth-of-type(7n+7) .cell-header:before { content: "Sun"; color: #fff; background: red; }
+
+  .cell-body {
+    min-height: 40px;
+  }
+}
+ 

@@ -16,9 +16,6 @@
 - Links
 - Buttons
 - Forms
-- Lists
-- Code
-- Tables
 - Spacing
 - Utilities
 - Clearing
@@ -285,56 +282,6 @@ label > .label-body {
   font-weight: normal; }
 
 
-/* Lists
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-ul {
-  list-style: circle inside; }
-ol {
-  list-style: decimal inside; }
-ol, ul {
-  padding-left: 0;
-  margin-top: 0; }
-ul ul,
-ul ol,
-ol ol,
-ol ul {
-  margin: 1.5rem 0 1.5rem 3rem;
-  font-size: 90%; }
-li {
-  margin-bottom: 1rem; }
-
-
-/* Code
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-code {
-  padding: .2rem .5rem;
-  margin: 0 .2rem;
-  font-size: 90%;
-  white-space: nowrap;
-  background: #F1F1F1;
-  border: 1px solid #E1E1E1;
-  border-radius: 4px; }
-pre > code {
-  display: block;
-  padding: 1rem 1.5rem;
-  white-space: pre; }
-
-
-/* Tables
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-th,
-td {
-  padding: 12px 15px;
-  text-align: left;
-  border-bottom: 1px solid #E1E1E1; }
-th:first-child,
-td:first-child {
-  padding-left: 0; }
-th:last-child,
-td:last-child {
-  padding-right: 0; }
-
-
 /* Spacing
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 button,
@@ -355,29 +302,6 @@ ul,
 ol,
 form {
   margin-bottom: 2.5rem; }
-
-
-/* Utilities
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-.u-full-width {
-  width: 100%;
-  box-sizing: border-box; }
-.u-max-full-width {
-  max-width: 100%;
-  box-sizing: border-box; }
-.u-pull-right {
-  float: right; }
-.u-pull-left {
-  float: left; }
-
-
-/* Misc
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-hr {
-  margin-top: 3rem;
-  margin-bottom: 3.5rem;
-  border-width: 0;
-  border-top: 1px solid #E1E1E1; }
 
 
 /* Clearing

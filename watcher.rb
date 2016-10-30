@@ -1,4 +1,4 @@
 loop do
   `npm run build`
-  sleep 1
+  sleep 5
 end
