@@ -14,6 +14,10 @@
   text-align: center;
 }
 
+.text-small {
+  font-size: 90%;
+}
+
 .two.columns {
   margin-left: 7px;
 }
@@ -22,6 +26,15 @@ body {
   background-color: #632412;
   color: #eee;
   font-family: sans-serif;
+}
+
+a {
+  color: #007D59;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #00FFB5;
 }
 
 .container {

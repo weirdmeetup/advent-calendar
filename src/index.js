@@ -57,11 +57,9 @@ window.signOut = signOut
 // Login check
 firebase.auth().onAuthStateChanged(user => {
   if (user) {
-    console.log("Logined")
     adventCalendar.uid = user.uid
     renderApp()
   } else {
-    console.log("Guest")
     adventCalendar.uid = null
     renderApp()
   }
@@ -100,6 +98,24 @@ const buildItems = (defaultItems, fetchedItems) => {
   return groupItemsByWeek(mergedItems, adventCalendar.year)
 }
 
+// Setup Form
+const openForm = (defaultData, cb) => {
+  vex.dialog.open({
+    showCloseButton: false,
+    message: "필요한 정보를 입력해주세요.",
+    input: [
+      `<input name="author" type="text" placeholder="이름" value="${defaultData.author}" required />`,
+      `<input name="title" type="text" placeholder="제목" value="${defaultData.title}" required />`,
+      `<input name="url" type="text" placeholder="URL" value="${defaultData.url}" required />`
+    ].join(""),
+    buttons: [
+      {text: "예약하기", type: "submit", className: "vex-dialog-button-primary", click: vex.dialog.buttons.YES.click},
+      {text: "취소하기", type: "button", className: "vex-dialog-button-secondary", click: vex.dialog.buttons.NO.click}
+    ],
+    callback: cb
+  })
+}
+
 // Init Riot app
 const adventCalendar = {
   uid: null,
@@ -121,7 +137,9 @@ const renderApp = () => {
     uid: uid,
     saveDay: saveData,
     deleteDay: deleteData,
-    loadData: loadData })
+    loadData: loadData,
+    openForm: openForm
+  })
 }
 
 loadData()

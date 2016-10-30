@@ -42,10 +42,11 @@
     </tbody>
   </table>
 
-  <h5 class="text-right">Powered by WEIRDMEETUP</h5>
+  <p class="text-right">Powered by WEIRDMEETUP</p>
 
   <script>
     this.items = opts.items
     this.uid = opts.uid
+    this.openForm = opts.openForm
   </script>
 </calendar>
