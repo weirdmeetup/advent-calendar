@@ -26,13 +26,18 @@
     }
 
     delete() {
-      if(!confirm("정말로 취소하시겠어요?")) { return }
-      this.parent.parent.opts.deleteDay(this.day)
-      this.parent.parent.opts.loadData()
+      vex.dialog.confirm({
+        message: "정말로 취소하시겠어요?",
+        callback: value => {
+          if(!value) { return }
+          this.parent.parent.opts.deleteDay(this.day)
+          this.parent.parent.opts.loadData()
+        }
+      })
     }
 
     openForm() {
-      if(!this.parent.uid) { alert("로그인해주세요."); return }
+      if(!this.parent.uid) { vex.dialog.alert("로그인해주세요."); return }
 
       const data = {
         author: this.author || "",
