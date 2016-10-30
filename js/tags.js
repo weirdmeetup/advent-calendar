@@ -4,13 +4,17 @@ riot.tag2('calendar', '<h1 class="text-center">Weird Advent Calendar 2016</h1> <
     this.openForm = opts.openForm
 });
 
-riot.tag2('day', '<div class="cell-inner"> <div class="cell-header">{day}</div> <div class="cell-body" if="{day > 25}"></div> <div class="cell-body" if="{day < 26 && isEmpty()}"> <a href="#" onclick="{openForm}">예약하기</a> </div> <div class="cell-body" if="{day < 26 && !isEmpty()}"> {author}님<br> <a href="{url}" target="_blank">{title}</a><br> <span class="text-small" if="{isOwned()}"> <a href="#" onclick="{openForm}">고치기</a> / <a href="#" onclick="{delete}">취소하기</a> </span> </div> </div>', '', '', function(opts) {
+riot.tag2('day', '<div class="cell-inner"> <div class="cell-header">{date.getDate()}</div> <div class="cell-body" if="{!this.isDecember()}"></div> <div class="cell-body" if="{this.isDecember() && isEmpty()}"> <a href="#" onclick="{openForm}">예약하기</a> </div> <div class="cell-body" if="{this.isDecember() && !isEmpty()}"> {author}님<br> <a href="{url}" target="_blank">{title}</a><br> <span class="text-small" if="{isOwned()}"> <a href="#" onclick="{openForm}">고치기</a> / <a href="#" onclick="{delete}">취소하기</a> </span> </div> </div>', '', '', function(opts) {
     this.isEmpty = function() {
       return this.author === ""
     }.bind(this)
 
+    this.isDecember = function() {
+      return this.date.getMonth() == 11
+    }.bind(this)
+
     this.isOwned = function() {
-      return this.parent.parent.uid === this.uid
+      return this.calendar().uid === this.uid
     }.bind(this)
 
     this.delete = function() {
@@ -18,14 +22,14 @@ riot.tag2('day', '<div class="cell-inner"> <div class="cell-header">{day}</div> 
         message: "정말로 취소하시겠어요?",
         callback: value => {
           if(!value) { return }
-          this.parent.parent.opts.deleteDay(this.day)
-          this.parent.parent.opts.loadData()
+          this.calendar().opts.deleteDay(this.day)
+          this.calendar().opts.refresh()
         }
       })
     }.bind(this)
 
     this.openForm = function() {
-      if(!this.parent.uid) { vex.dialog.alert("로그인해주세요."); return }
+      if(!this.calendar().uid) { vex.dialog.alert("로그인해주세요."); return }
 
       const data = {
         author: this.author || "",
@@ -33,16 +37,20 @@ riot.tag2('day', '<div class="cell-inner"> <div class="cell-header">{day}</div> 
         url: this.url || ""
       }
 
-      this.parent.parent.openForm(data, data => {
+      this.calendar().openForm(data, data => {
         if (!data) { return }
         const day = this.day
         const author = data.author
         const title = data.title
         const url = data.url
 
-        this.parent.parent.opts.saveDay(day, author, title, url)
-        this.parent.parent.opts.loadData()
+        this.calendar().opts.saveDay(day, author, title, url)
+        this.calendar().opts.refresh()
       })
+    }.bind(this)
+
+    this.calendar = function() {
+      return this.parent.parent
     }.bind(this)
 });
 

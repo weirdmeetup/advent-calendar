@@ -1,6 +1,6 @@
 "use strict";
 
-// Initialize code
+// Initialize firebase
 var config = {
   apiKey: "AIzaSyAiqGYAd5Cqa9R546LZFQHGk06K5FioAPk",
   authDomain: "adventcalendar-f70f4.firebaseapp.com",
@@ -24,9 +24,9 @@ var deleteData = function deleteData(day) {
   firebase.database().ref("days/" + (day - 1)).remove();
 };
 
-var loadData = function loadData() {
+var refresh = function refresh() {
   return firebase.database().ref("/days").once("value").then(function (snap) {
-    adventCalendar.items = buildItems(defaultItems(), snap.val());
+    adventCalendar.items = buildItems(snap.val());
     renderApp();
   });
 };
@@ -36,16 +36,14 @@ var provider = new firebase.auth.GoogleAuthProvider();
 
 var signIn = function signIn() {
   firebase.auth().signInWithRedirect(provider).then(function (result) {
-    var user = result.user;
-    // ...
+    adventCalendar.uid = result.user.uid;
   }).catch(function (error) {
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    var email = error.email;
-    var credential = error.credential;
+    // const errorCode = error.code
+    // const errorMessage = error.message
+    // const email = error.email
+    // const credential = error.credential
   });
 };
-window.signIn = signIn;
 
 var signOut = function signOut() {
   firebase.auth().signOut().then(function () {
@@ -54,35 +52,31 @@ var signOut = function signOut() {
     console.log("Fail log out");
   });
 };
-window.signOut = signOut;
 
-// Login check
-firebase.auth().onAuthStateChanged(function (user) {
-  if (user) {
-    adventCalendar.uid = user.uid;
-    renderApp();
-  } else {
-    adventCalendar.uid = null;
-    renderApp();
-  }
-});
+var factoryDefaultItems = function factoryDefaultItems(givenYear) {
+  var year = givenYear;
 
-var defaultItems = function defaultItems() {
-  var arr = [];
-  for (var i = 1; i != 26; i++) {
-    arr.push({ day: i, author: "", title: "", url: "" });
-  }
-  return arr;
+  return function () {
+    var startDate = new Date(year + "-12-01");
+    var paddingDay = 7 - startDate.getDay();
+    startDate.setDate(startDate.getDate() - paddingDay);
+    var dayCount = paddingDay > 3 ? 35 : 28;
+
+    var arr = [];
+    for (var i = 0; i != dayCount; i++) {
+      arr.push({
+        date: new Date(startDate.getTime()),
+        day: startDate.getDate(),
+        author: "", title: "", url: ""
+      });
+      startDate.setDate(startDate.getDate() + 1);
+    }
+    return arr;
+  };
 };
 
-var groupItemsByWeek = function groupItemsByWeek(items, year) {
-  var startWeekday = new Date(year + "-12-1").getDay();
-  var paddingDay = 7 - startWeekday;
-  var arr = [];
-  for (var i = 0; i != paddingDay; i++) {
-    arr.push({ day: 31 - paddingDay + i });
-  }
-  var allDay = arr.concat(items);
+var groupItemsByWeek = function groupItemsByWeek(items) {
+  var allDay = items;
 
   var weeks = [];
   while (allDay.length !== 0) {
@@ -91,13 +85,19 @@ var groupItemsByWeek = function groupItemsByWeek(items, year) {
   return weeks;
 };
 
-var buildItems = function buildItems(defaultItems, fetchedItems) {
+var buildItems = function buildItems(fetchedItems) {
+  var items = defaultItems();
   var ensuredFetchedItems = fetchedItems || [];
-  var mergedItems = defaultItems;
+  var offset = 30 - items[0].date.getDate();
+
   ensuredFetchedItems.forEach(function (item) {
-    mergedItems[item.day - 1] = item;
+    var index = item.day * 1 + offset;
+    var date = items[index].date;
+
+    items[index] = item;
+    item.date = date;
   });
-  return groupItemsByWeek(mergedItems, adventCalendar.year);
+  return groupItemsByWeek(items);
 };
 
 // Setup Form
@@ -111,15 +111,6 @@ var openForm = function openForm(defaultData, cb) {
   });
 };
 
-// Init Riot app
-var adventCalendar = {
-  uid: null,
-  year: 2016,
-  items: groupItemsByWeek(defaultItems(), 2016)
-};
-
-window.adventCalendar = adventCalendar;
-
 var renderApp = function renderApp() {
   var uid = adventCalendar.uid;
   var items = adventCalendar.items;
@@ -132,9 +123,25 @@ var renderApp = function renderApp() {
     uid: uid,
     saveDay: saveData,
     deleteDay: deleteData,
-    loadData: loadData,
+    refresh: refresh,
     openForm: openForm
   });
 };
 
-loadData();
+// Init Riot app
+var adventCalendar = {
+  uid: null,
+  items: null
+};
+var defaultItems = factoryDefaultItems(2016);
+
+// Login check
+// & Trigger app start
+firebase.auth().onAuthStateChanged(function (user) {
+  if (user) {
+    adventCalendar.uid = user.uid;
+  } else {
+    adventCalendar.uid = null;
+  }
+  refresh();
+});

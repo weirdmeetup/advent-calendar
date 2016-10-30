@@ -1,4 +1,4 @@
-// Initialize code
+// Initialize firebase
 const config = {
   apiKey: "AIzaSyAiqGYAd5Cqa9R546LZFQHGk06K5FioAPk",
   authDomain: "adventcalendar-f70f4.firebaseapp.com",
@@ -22,9 +22,9 @@ const deleteData = day => {
   firebase.database().ref(`days/${day - 1}`).remove()
 }
 
-const loadData = () => {
+const refresh = () => {
   return firebase.database().ref("/days").once("value").then(snap => {
-    adventCalendar.items = buildItems(defaultItems(), snap.val())
+    adventCalendar.items = buildItems(snap.val())
     renderApp()
   })
 }
@@ -34,16 +34,14 @@ const provider = new firebase.auth.GoogleAuthProvider()
 
 const signIn = () => {
   firebase.auth().signInWithRedirect(provider).then(result => {
-    const user = result.user
-    // ...
+    adventCalendar.uid = result.user.uid
   }).catch(error => {
-    const errorCode = error.code
-    const errorMessage = error.message
-    const email = error.email
-    const credential = error.credential
+    // const errorCode = error.code
+    // const errorMessage = error.message
+    // const email = error.email
+    // const credential = error.credential
   })
 }
-window.signIn = signIn
 
 const signOut = () => {
   firebase.auth().signOut().then(() => {
@@ -52,35 +50,31 @@ const signOut = () => {
     console.log("Fail log out")
   })
 }
-window.signOut = signOut
 
-// Login check
-firebase.auth().onAuthStateChanged(user => {
-  if (user) {
-    adventCalendar.uid = user.uid
-    renderApp()
-  } else {
-    adventCalendar.uid = null
-    renderApp()
-  }
-})
+const factoryDefaultItems = givenYear => {
+  const year = givenYear
 
-const defaultItems = () => {
-  const arr = []
-  for(let i=1; i !=26; i++) {
-    arr.push({day: i, author: "", title: "", url: ""})
+  return () => {
+    const startDate = new Date(`${year}-12-01`)
+    const paddingDay = 7 - startDate.getDay()
+    startDate.setDate(startDate.getDate() - paddingDay)
+    const dayCount = paddingDay > 3 ? 35 : 28
+
+    const arr = []
+    for(let i=0; i != dayCount; i++) {
+      arr.push({
+        date: new Date(startDate.getTime()),
+        day: startDate.getDate(),
+        author: "", title: "", url: ""
+      })
+      startDate.setDate(startDate.getDate() + 1)
+    }
+    return arr
   }
-  return arr
 }
 
-const groupItemsByWeek = (items, year) => {
-  const startWeekday = new Date(`${year}-12-1`).getDay()
-  const paddingDay = 7 - startWeekday
-  const arr = []
-  for(let i=0; i!= paddingDay; i++) {
-    arr.push({day: 31 - paddingDay + i})
-  }
-  const allDay = arr.concat(items)
+const groupItemsByWeek = items => {
+  const allDay = items
 
   const weeks = []
   while(allDay.length !== 0) {
@@ -89,13 +83,18 @@ const groupItemsByWeek = (items, year) => {
   return weeks
 }
 
-const buildItems = (defaultItems, fetchedItems) => {
+const buildItems = fetchedItems => {
+  const items = defaultItems()
   const ensuredFetchedItems = fetchedItems || []
-  const mergedItems = defaultItems
+  const offset = 30 - items[0].date.getDate()
+
   ensuredFetchedItems.forEach(item => {
-    mergedItems[item.day - 1] = item
+    const index = item.day * 1 + offset
+    const { date } = items[index]
+    items[index] = item
+    item.date = date
   })
-  return groupItemsByWeek(mergedItems, adventCalendar.year)
+  return groupItemsByWeek(items)
 }
 
 // Setup Form
@@ -116,15 +115,6 @@ const openForm = (defaultData, cb) => {
   })
 }
 
-// Init Riot app
-const adventCalendar = {
-  uid: null,
-  year: 2016,
-  items: groupItemsByWeek(defaultItems(), 2016)
-}
-
-window.adventCalendar = adventCalendar
-
 const renderApp = () => {
   const uid = adventCalendar.uid
   const items = adventCalendar.items
@@ -137,9 +127,25 @@ const renderApp = () => {
     uid: uid,
     saveDay: saveData,
     deleteDay: deleteData,
-    loadData: loadData,
+    refresh: refresh,
     openForm: openForm
   })
 }
 
-loadData()
+// Init Riot app
+const adventCalendar = {
+  uid: null,
+  items: null
+}
+const defaultItems = factoryDefaultItems(2016)
+
+// Login check
+// & Trigger app start
+firebase.auth().onAuthStateChanged(user => {
+  if (user) {
+    adventCalendar.uid = user.uid
+  } else {
+    adventCalendar.uid = null
+  }
+  refresh()
+})
