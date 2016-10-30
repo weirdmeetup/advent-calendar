@@ -42,7 +42,7 @@
     </tbody>
   </table>
 
-  <p class="text-right">Powered by WEIRDMEETUP</p>
+  <p class="text-right">Powered by <a style="color: #eee;" href="https://blog.weirdx.io" target="_blank">WEIRDMEETUP</a></p>
 
   <script>
     this.items = opts.items

@@ -56,7 +56,7 @@ const factoryDefaultItems = givenYear => {
 
   return () => {
     const startDate = new Date(`${year}-12-01`)
-    const paddingDay = 7 - startDate.getDay()
+    const paddingDay = 8 - startDate.getDay()
     startDate.setDate(startDate.getDate() - paddingDay)
     const dayCount = paddingDay > 3 ? 35 : 28
 
@@ -105,7 +105,7 @@ const openForm = (defaultData, cb) => {
     input: [
       `<input name="author" type="text" placeholder="이름" value="${defaultData.author}" required />`,
       `<input name="title" type="text" placeholder="제목" value="${defaultData.title}" required />`,
-      `<input name="url" type="text" placeholder="URL" value="${defaultData.url}" required />`
+      `<input name="url" type="text" placeholder="URL" value="${defaultData.url}"/>`
     ].join(""),
     buttons: [
       {text: "예약하기", type: "submit", className: "vex-dialog-button-primary", click: vex.dialog.buttons.YES.click},

@@ -58,7 +58,7 @@ var factoryDefaultItems = function factoryDefaultItems(givenYear) {
 
   return function () {
     var startDate = new Date(year + "-12-01");
-    var paddingDay = 7 - startDate.getDay();
+    var paddingDay = 8 - startDate.getDay();
     startDate.setDate(startDate.getDate() - paddingDay);
     var dayCount = paddingDay > 3 ? 35 : 28;
 
@@ -105,7 +105,7 @@ var openForm = function openForm(defaultData, cb) {
   vex.dialog.open({
     showCloseButton: false,
     message: "필요한 정보를 입력해주세요.",
-    input: ["<input name=\"author\" type=\"text\" placeholder=\"\uC774\uB984\" value=\"" + defaultData.author + "\" required />", "<input name=\"title\" type=\"text\" placeholder=\"\uC81C\uBAA9\" value=\"" + defaultData.title + "\" required />", "<input name=\"url\" type=\"text\" placeholder=\"URL\" value=\"" + defaultData.url + "\" required />"].join(""),
+    input: ["<input name=\"author\" type=\"text\" placeholder=\"\uC774\uB984\" value=\"" + defaultData.author + "\" required />", "<input name=\"title\" type=\"text\" placeholder=\"\uC81C\uBAA9\" value=\"" + defaultData.title + "\" required />", "<input name=\"url\" type=\"text\" placeholder=\"URL\" value=\"" + defaultData.url + "\"/>"].join(""),
     buttons: [{ text: "예약하기", type: "submit", className: "vex-dialog-button-primary", click: vex.dialog.buttons.YES.click }, { text: "취소하기", type: "button", className: "vex-dialog-button-secondary", click: vex.dialog.buttons.NO.click }],
     callback: cb
   });
