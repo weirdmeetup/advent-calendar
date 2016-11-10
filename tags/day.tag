@@ -6,9 +6,17 @@
     <div class="cell-body" if={ this.isDecember() && isEmpty() }>
       <a href="#" onclick={ openForm }>예약하기</a>
     </div>
-    <div class="cell-body" if={ this.isDecember() && !isEmpty() }>
+    <div class="cell-body" if={ this.isDecember() && !this.isPublic() && !isEmpty() }>
       { author }님<br>
       <a href={url} target="_blank">{title}</a><br>
+      <span class="text-small" if={ isOwned() }>
+        <a href="#" onclick={ openForm }>고치기</a> /
+        <a href="#" onclick={ delete }>취소하기</a>
+      </span>
+    </div>
+    <div class="cell-body" if={ this.isDecember() && this.isPublic() && !isEmpty() }>
+      { author }님<br>
+      {title}<br>
       <span class="text-small" if={ isOwned() }>
         <a href="#" onclick={ openForm }>고치기</a> /
         <a href="#" onclick={ delete }>취소하기</a>
@@ -22,7 +30,12 @@
     }
 
     isDecember() {
+      // 11 is December
       return this.date.getMonth() == 11
+    }
+
+    isPublic() {
+      return this.date > new Date()
     }
 
     isOwned() {

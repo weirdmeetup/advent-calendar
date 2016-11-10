@@ -4,13 +4,18 @@ riot.tag2('calendar', '<h1 class="text-center">Weird Advent Calendar 2016</h1> <
     this.openForm = opts.openForm
 });
 
-riot.tag2('day', '<div class="cell-inner"> <div class="cell-header">{date.getDate()}</div> <div class="cell-body" if="{!this.isDecember()}"></div> <div class="cell-body" if="{this.isDecember() && isEmpty()}"> <a href="#" onclick="{openForm}">예약하기</a> </div> <div class="cell-body" if="{this.isDecember() && !isEmpty()}"> {author}님<br> <a href="{url}" target="_blank">{title}</a><br> <span class="text-small" if="{isOwned()}"> <a href="#" onclick="{openForm}">고치기</a> / <a href="#" onclick="{delete}">취소하기</a> </span> </div> </div>', '', '', function(opts) {
+riot.tag2('day', '<div class="cell-inner"> <div class="cell-header">{date.getDate()}</div> <div class="cell-body" if="{!this.isDecember()}"></div> <div class="cell-body" if="{this.isDecember() && isEmpty()}"> <a href="#" onclick="{openForm}">예약하기</a> </div> <div class="cell-body" if="{this.isDecember() && !this.isPublic() && !isEmpty()}"> {author}님<br> <a href="{url}" target="_blank">{title}</a><br> <span class="text-small" if="{isOwned()}"> <a href="#" onclick="{openForm}">고치기</a> / <a href="#" onclick="{delete}">취소하기</a> </span> </div> <div class="cell-body" if="{this.isDecember() && this.isPublic() && !isEmpty()}"> {author}님<br> {title}<br> <span class="text-small" if="{isOwned()}"> <a href="#" onclick="{openForm}">고치기</a> / <a href="#" onclick="{delete}">취소하기</a> </span> </div> </div>', '', '', function(opts) {
     this.isEmpty = function() {
       return this.author === ""
     }.bind(this)
 
     this.isDecember = function() {
+
       return this.date.getMonth() == 11
+    }.bind(this)
+
+    this.isPublic = function() {
+      return this.date > new Date()
     }.bind(this)
 
     this.isOwned = function() {
