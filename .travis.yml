@@ -1,0 +1,18 @@
+language: ruby
+branches:
+  only: master
+env:
+  global:
+    - ENCRYPTION_LABEL: "81808ddf186a"
+    - TRAVIS_NODE_VERSION: "6.2.0"
+before_install:
+  - git config --global user.email "travis@weirdx.io"
+  - git config --global user.name "Travis CI"
+  - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION
+  - npm install -g babel-cli babel-preset-es2015 riot
+install:
+  - npm install
+script:
+  - node --version
+  - npm --version
+  - ./deploy.sh
