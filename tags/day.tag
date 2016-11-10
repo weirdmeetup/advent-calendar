@@ -2,11 +2,11 @@
   <div class="cell-inner">
     <div class="cell-header">{ date.getDate() }</div>
 
-    <div class="cell-body" if={ !this.isDecember() }></div>
-    <div class="cell-body" if={ this.isDecember() && isEmpty() }>
+    <div class="cell-body" if={ !this.isAdvent() }></div>
+    <div class="cell-body" if={ this.isAdvent() && isEmpty() }>
       <a href="#" onclick={ openForm }>예약하기</a>
     </div>
-    <div class="cell-body" if={ this.isDecember() && !this.isPublic() && !isEmpty() }>
+    <div class="cell-body" if={ this.isAdvent() && !this.isPublic() && !isEmpty() }>
       { author }님<br>
       <a href={url} target="_blank">{title}</a><br>
       <span class="text-small" if={ isOwned() }>
@@ -14,7 +14,7 @@
         <a href="#" onclick={ delete }>취소하기</a>
       </span>
     </div>
-    <div class="cell-body" if={ this.isDecember() && this.isPublic() && !isEmpty() }>
+    <div class="cell-body" if={ this.isAdvent() && this.isPublic() && !isEmpty() }>
       { author }님<br>
       {title}<br>
       <span class="text-small" if={ isOwned() }>
@@ -29,9 +29,9 @@
       return this.author === ""
     }
 
-    isDecember() {
+    isAdvent() {
       // 11 is December
-      return this.date.getMonth() == 11
+      return this.date.getMonth() == 11 && this.date.getDate() < 26
     }
 
     isPublic() {
