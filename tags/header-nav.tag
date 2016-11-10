@@ -1,8 +1,8 @@
 <header-nav>
-  <a href="/history.html" target="_blank" class="float-left button">이전 달력 보기</a>
+  <a href="/history.html" target="_blank" class="float-left"><img src="../src/img/btn-previous.png" style="width: inherit;"/></a>
   <div class="float-right">
-  <a if={ !this.opts.uid } class="button button-primary" href="#" onclick={ clkSignIn }>Log-in</a>
-  <a if={ this.opts.uid } class="button" href="#" onclick={ clkSignOut }>Log-out</a>
+  <a if={ !this.opts.uid } href="#" onclick={ clkSignIn }><img src="../src/img/btn-login.png" style="width: inherit;"/></a>
+  <a if={ this.opts.uid } href="#" onclick={ clkSignOut }><img src="../src/img/btn-logout.png" style="width: inherit;"/></a>
 
   <script>
   clkSignIn() {
