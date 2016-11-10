@@ -29,11 +29,14 @@ body {
 }
 
 a {
-  color: #007D59;
   text-decoration: none;
 }
 
-a:hover {
+table a {
+  color: #007D59;
+}
+
+table a:hover {
   color: #00FFB5;
 }
 
