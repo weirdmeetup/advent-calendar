@@ -40,12 +40,7 @@ const provider = new firebase.auth.GoogleAuthProvider()
 const signIn = () => {
   firebase.auth().signInWithRedirect(provider).then(result => {
     adventCalendar.uid = result.user.uid
-  }).catch(error => {
-    // const errorCode = error.code
-    // const errorMessage = error.message
-    // const email = error.email
-    // const credential = error.credential
-  })
+  }).catch(console.log)
 }
 
 const signOut = () => {
