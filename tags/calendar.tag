@@ -1,5 +1,6 @@
 <calendar>
   <img src="../src/img/header-title-2016.png"/>
+
   <section class="explain-section">
     <ul>
       <li>
@@ -60,17 +61,14 @@
     </tbody>
   </table>
 
-  <div class="text-right">
-    <a href="http://koalabot-weirdmeetup.herokuapp.com/slack" target="_blank">  <img src="./src/img/weird-logo.png" style="
-      max-width: 169px;
-      padding-top: 5em;
-      margin: auto;
-      " class="img-center"></a>
-    <p style="color: black;">
+  <div class="text-right served-by">
+    <a href="http://koalabot-weirdmeetup.herokuapp.com/slack" target="_blank">
+      <img src="./src/img/weird-logo.png" class="img-banner">
+    </a>
+    <p>
       Developed by <b>shia∙minieetea</b>
     </p>
   </div>
-
 
   <script>
     this.items = opts.items
