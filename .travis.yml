@@ -1,6 +1,7 @@
 language: ruby
 branches:
-  only: master
+  only:
+  - master
 env:
   global:
     - ENCRYPTION_LABEL: "81808ddf186a"
