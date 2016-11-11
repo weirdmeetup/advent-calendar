@@ -24,7 +24,12 @@ const deleteData = day => {
 
 const refresh = () => {
   return firebase.database().ref("/days").once("value").then(snap => {
-    adventCalendar.items = buildItems(snap.val())
+    const items = []
+    const obj = snap.val()
+    for (let key in obj) {
+      items.push(obj[key])
+    }
+    adventCalendar.items = buildItems(items)
     renderApp()
   })
 }
@@ -88,11 +93,15 @@ const buildItems = fetchedItems => {
   const ensuredFetchedItems = fetchedItems || []
   const offset = 30 - items[0].date.getDate()
 
-  ensuredFetchedItems.forEach(item => {
+  for(let i=0; i!= ensuredFetchedItems.length; i++) {
+    const item = ensuredFetchedItems[i] 
     const index = item.day * 1 + offset
     const { date } = items[index]
     items[index] = item
     item.date = date
+
+  }
+  ensuredFetchedItems.forEach(item => {
   })
   return groupItemsByWeek(items)
 }
