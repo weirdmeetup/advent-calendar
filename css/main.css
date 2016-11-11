@@ -285,13 +285,13 @@ thead tr td {
     display: inline-block;
   }
 
-  td.cell:nth-of-type(7n+1) .cell-header:before { content: "Mon"; }
-  td.cell:nth-of-type(7n+2) .cell-header:before { content: "Tue"; }
-  td.cell:nth-of-type(7n+3) .cell-header:before { content: "Wed"; }
-  td.cell:nth-of-type(7n+4) .cell-header:before { content: "Thu"; }
-  td.cell:nth-of-type(7n+5) .cell-header:before { content: "Fri"; }
-  td.cell:nth-of-type(7n+6) .cell-header:before { content: "Sat"; color: #fff; background: blue; }
-  td.cell:nth-of-type(7n+7) .cell-header:before { content: "Sun"; color: #fff; background: red; }
+  td.cell:nth-of-type(7n+1) .cell-header:before { content: "Sun"; color: #fff; background: red; }
+  td.cell:nth-of-type(7n+2) .cell-header:before { content: "Mon"; }
+  td.cell:nth-of-type(7n+3) .cell-header:before { content: "Tue"; }
+  td.cell:nth-of-type(7n+4) .cell-header:before { content: "Wed"; }
+  td.cell:nth-of-type(7n+5) .cell-header:before { content: "Thu"; }
+  td.cell:nth-of-type(7n+6) .cell-header:before { content: "Fri"; }
+  td.cell:nth-of-type(7n+7) .cell-header:before { content: "Sat"; color: #fff; background: blue; }
 
   .cell-body {
     min-height: 40px;
