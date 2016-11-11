@@ -239,8 +239,9 @@ thead tr td {
 .cell {
   background-color: white;
   min-height: 80px;
-  width: 100px;
   padding: 0px;
+  vertical-align: top;
+  width: 100px;
 }
 
 .cell-header {
