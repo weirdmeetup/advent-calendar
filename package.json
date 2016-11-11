@@ -6,7 +6,7 @@
   "description": "Advent Calendar for weirdmeetup",
   "main": "index.js",
   "scripts": {
-    "build": "babel src -d js && riot tags js/tags.js"
+    "build": "riot tags src/tags.js && babel src -d js && rm src/tags.js"
   },
   "repository": {
     "url": "git@github.com:weirdmeetup/advent-calendar.git",

@@ -14,7 +14,7 @@ const saveData = (day, author, title, url) => {
     uid: adventCalendar.uid,
     author: author,
     title: title,
-    url: url
+    url: url || ""
   })
 }
 
