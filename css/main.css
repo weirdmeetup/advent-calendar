@@ -22,10 +22,6 @@
   margin-left: 7px;
 }
 
-.img-center {
-  margin: auto;
-}
-
 body {
   background-color: #F8F7E7;
   color: #eee;
@@ -38,14 +34,6 @@ body {
 
 a {
   text-decoration: none;
-}
-
-table a {
-  color: #007D59;
-}
-
-table a:hover {
-  color: #00FFB5;
 }
 
 .container {
@@ -217,7 +205,21 @@ u.explain-section l li input[type=checkbox]:checked ~ i:after {
     transform: rotateX(0deg);
   }
 }
-/* Table */
+ 
+/* header-nav */
+.navbar {
+  width: inherit;
+}
+
+/* calendar */
+table a {
+  color: #007D59;
+}
+
+table a:hover {
+  color: #00FFB5;
+}
+
 table {
   display: table;
   border-collapse: initial;
@@ -236,6 +238,17 @@ thead tr td {
   text-align: center;
 }
 
+.img-banner {
+  margin: auto;
+  max-width: 169px;
+  padding-top: 2em;
+}
+
+.served-by {
+  color: black;
+}
+
+/* week */
 .cell {
   background-color: white;
   min-height: 80px;
@@ -244,6 +257,7 @@ thead tr td {
   width: 100px;
 }
 
+/* day */
 .cell-header {
   padding: 7px;
   background-color: #EA4C5C;
@@ -297,4 +311,4 @@ thead tr td {
     min-height: 40px;
   }
 }
- 
+

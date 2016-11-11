@@ -6,8 +6,9 @@ const config = {
   messagingSenderId: "1044702803525"
 }
 firebase.initializeApp(config)
+// Initialize Done firebase
 
-// Prepare CRUD with firebase
+// CRUD functions with firebase
 const saveData = (day, author, title, url) => {
   firebase.database().ref(`days/${day - 1}`).set({
     day: day,
@@ -33,8 +34,9 @@ const refresh = () => {
     renderApp()
   })
 }
+// END CRUD functions with firebase
 
-// Prepare auth
+// Auth
 const provider = new firebase.auth.GoogleAuthProvider()
 
 const signIn = () => {
@@ -46,11 +48,11 @@ const signIn = () => {
 const signOut = () => {
   firebase.auth().signOut().then(() => {
     console.log("Success log out")
-  }, error => {
-    console.log("Fail log out")
-  })
+  }, console.log)
 }
+// End Auth
 
+// Utility
 const factoryDefaultItems = givenYear => {
   const year = givenYear
 
@@ -74,11 +76,9 @@ const factoryDefaultItems = givenYear => {
 }
 
 const groupItemsByWeek = items => {
-  const allDay = items
-
   const weeks = []
-  while(allDay.length !== 0) {
-    weeks.push({days: allDay.splice(0, 7)})
+  while(items.length !== 0) {
+    weeks.push({days: items.splice(0, 7)})
   }
   return weeks
 }
@@ -94,12 +94,11 @@ const buildItems = fetchedItems => {
     const { date } = items[index]
     items[index] = item
     item.date = date
-
   }
-  ensuredFetchedItems.forEach(item => {
-  })
+
   return groupItemsByWeek(items)
 }
+// End Utility
 
 // Setup Form
 const openForm = (defaultData, cb) => {
@@ -123,9 +122,7 @@ const renderApp = () => {
   const uid = adventCalendar.uid
   const items = adventCalendar.items
 
-  riot.mount("header-nav", { signIn: signIn,
-                             signOut: signOut,
-                             uid: uid })
+  riot.mount("header-nav", { signIn: signIn, signOut: signOut, uid: uid })
   riot.mount("calendar", {
     items: items,
     uid: uid,
@@ -136,15 +133,15 @@ const renderApp = () => {
   })
 }
 
-// Init Riot app
+// Init app
 const adventCalendar = {
   uid: null,
-  items: null
+  items: null,
+  currentYear: 2016
 }
-const defaultItems = factoryDefaultItems(2016)
+const defaultItems = factoryDefaultItems(adventCalendar.currentYear)
 
-// Login check
-// & Trigger app start
+// Login check & Trigger app start
 firebase.auth().onAuthStateChanged(user => {
   if (user) {
     adventCalendar.uid = user.uid
