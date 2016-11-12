@@ -142,6 +142,7 @@ const adventCalendar = {
 const defaultItems = factoryDefaultItems(adventCalendar.currentYear)
 
 // Login check & Trigger app start
+renderApp()
 firebase.auth().onAuthStateChanged(user => {
   if (user) {
     adventCalendar.uid = user.uid
