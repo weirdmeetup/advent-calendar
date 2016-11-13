@@ -31,10 +31,30 @@ const refresh = () => {
       items.push(obj[key])
     }
     adventCalendar.items = buildItems(items)
+    saveCache(adventCalendar.items)
     renderApp()
   })
 }
 // END CRUD functions with firebase
+
+// Setup cache to localStorage for progressive start
+const saveCache = items => {
+  if (localStorage) {
+    localStorage.setItem("days", JSON.stringify(items))
+  }
+}
+
+const loadCache = () => {
+  if (localStorage && localStorage.getItem("days")) {
+    const days = JSON.parse(localStorage.getItem("days"))
+
+    days.forEach(week => {
+      week.days.forEach(day => day.date = new Date(day.date))
+    })
+    return days
+  }
+  return null
+}
 
 // Auth
 const provider = new firebase.auth.GoogleAuthProvider()
@@ -141,8 +161,11 @@ const adventCalendar = {
 }
 const defaultItems = factoryDefaultItems(adventCalendar.currentYear)
 
-// Login check & Trigger app start
+// Trigger app start
+adventCalendar.items = loadCache()
 renderApp()
+
+// Login process triggered
 firebase.auth().onAuthStateChanged(user => {
   if (user) {
     adventCalendar.uid = user.uid
