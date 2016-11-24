@@ -6,7 +6,6 @@ env:
   global:
   - ENCRYPTION_LABEL: 81808ddf186a
   - TRAVIS_NODE_VERSION: 6.2.0
-  - secure: qQ9Xc6Qo4106+ZaPX48M4zhttv6RmIFcuaeItujSSaOQM4EyAhZwbXzd/JBljyPti/euRdAW7n1qNI0h7AnDFp9XLpRAR9+0xEwM1N3SHWJAl1VM0LGPh+igeeOCs1Fi9Ie9/XfvYMGyELuos/pb8p6Cd3sZdhv2mbERYtT2CaqCMMwql7CQ8p5hJfd1waX8O71OaeFf59H11J/+ho/zu+uObNl1WXX3Pnu32pfhBWhHzbb6aVQNZBEEdjIC9XWXUXwJgfTFl/JXNYC9Up427aHZcTRGcr9S/9VsTQsevIe1JpiuGz1s6zB1nSz7jiTftxguzIZBy9ZywufskbNKoHlCAlm7b/o1//WPeTvjrFW4YmbnotAgMnzYLIOrTZ9PjLyCLQarIJXTSWyOK3EG1qDuhpK3xru9gbf+5jVGPhWT/y84mMvhjUEkvWZ4Fo6sXy37GIFoFw/lc+1YfZzsjNGmY9lFnYx+1MwIhBhln6vWKAvRAM7ZxPnMHjVzpxBb9TcESkBFw9m+1B1sNKnXem+0LJF52zHLc2Ihe+3CVnCs8BfDcfqnUXuA68mQHIpO1vTHVDyJQ7xJv/V9i6CLLXgkqfQdTj7Ikg63XWsL7xlCR9LYCuJ+cvC1ARc6Ix7TpR4LozMuXz7G+oFGRP5Ek1bPiJ2mGz0MqRjKZQPlDWE=
 before_install:
 - git config --global user.email "travis@weirdx.io"
 - git config --global user.name "Travis CI"
