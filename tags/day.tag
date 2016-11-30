@@ -6,7 +6,7 @@
     <div class="cell-body" if={ this.isAdvent() && isEmpty() }>
       <a href="#" onclick={ openForm }>예약하기</a>
     </div>
-    <div class="cell-body" if={ this.isAdvent() && !this.isPublic() && !isEmpty() }>
+    <div class="cell-body" if={ this.isAdvent() && this.isPublic() && !isEmpty() }>
       { author }님<br>
       <a href={url} target="_blank">{title}</a><br>
       <span class="text-small" if={ isOwned() }>
@@ -14,7 +14,7 @@
         <a href="#" onclick={ delete }>취소하기</a>
       </span>
     </div>
-    <div class="cell-body" if={ this.isAdvent() && this.isPublic() && !isEmpty() }>
+    <div class="cell-body" if={ this.isAdvent() && !this.isPublic() && !isEmpty() }>
       { author }님<br>
       {title}<br>
       <span class="text-small" if={ isOwned() }>
@@ -35,7 +35,7 @@
     }
 
     isPublic() {
-      return this.date > new Date()
+      return this.date.getDate() <= (new Date()).getDate()
     }
 
     isOwned() {
