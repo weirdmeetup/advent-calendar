@@ -1,19 +1,17 @@
-language: ruby
+language: node_js
+node_js:
+  - "7"
 branches:
   only:
   - master
 env:
   global:
   - ENCRYPTION_LABEL: 81808ddf186a
-  - TRAVIS_NODE_VERSION: 6.2.0
+cache: yarn
 before_install:
 - git config --global user.email "travis@weirdx.io"
 - git config --global user.name "Travis CI"
-- rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm
-  && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm
-  install $TRAVIS_NODE_VERSION
 script:
 - node --version
-- yarn --version
 - ./deploy.sh
 after_success: test $TRAVIS_BRANCH = "master" && ./notify.sh

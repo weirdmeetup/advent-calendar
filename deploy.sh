@@ -5,7 +5,7 @@ SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
 SHA=`git rev-parse --verify HEAD`
 
 git checkout -b gh-pages
-npm run build
+yarn build
 git add js -f && git commit -n -m "deploy to gh-pages ${SHA}"
 
 # Get the deploy key by using Travis's stored variables to decrypt deploy_key.enc
