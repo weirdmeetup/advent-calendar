@@ -12,11 +12,8 @@ before_install:
 - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm
   && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm
   install $TRAVIS_NODE_VERSION
-- npm install -g babel-cli babel-preset-es2015 riot
-install:
-- npm install
 script:
 - node --version
-- npm --version
+- yarn --version
 - ./deploy.sh
 after_success: test $TRAVIS_BRANCH = "master" && ./notify.sh
