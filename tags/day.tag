@@ -8,7 +8,7 @@
     </div>
     <div class="cell-body" if={ this.isAdvent() && this.isPublic() && !isEmpty() }>
       { author }님<br>
-      <a href={url} target="_blank">{title}</a><br>
+      <a href={url} target="_blank" class={text-strike: this.isPunked()}>{title}</a><br>
       <span class="text-small" if={ isOwned() }>
         <a href="#" onclick={ openForm }>고치기</a> /
         <a href="#" onclick={ delete }>취소하기</a>
@@ -27,6 +27,10 @@
   <script>
     isEmpty() {
       return this.author === ""
+    }
+
+    isPunked() {
+      return this.url === ""
     }
 
     isAdvent() {
