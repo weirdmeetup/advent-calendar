@@ -27,10 +27,11 @@
   <script>
     // Check Date like +09:00
     // Meaning to say, Link will be opened at 0 am +09:00 in all the world.
-    this.localDate = new Date()
-    const offset = this.localDate.getTimezoneOffset()
-    const shift = this.localDate.getMinutes() + offset + 540
-    this.localDate.setMinutes(shift)
+    const localDate = new Date()
+    const offset = localDate.getTimezoneOffset()
+    const shift = localDate.getMinutes() + offset + 540
+    localDate.setMinutes(shift)
+    this.localDay = localDate.getDate()
     
     isEmpty() {
       return this.author === ""
@@ -46,7 +47,7 @@
     }
 
     isPublic() {
-      return this.date.getDate() <= this.localDate.getDate()
+      return this.date.getDate() <= this.localDay
     }
 
     isOwned() {
