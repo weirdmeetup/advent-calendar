@@ -32,7 +32,7 @@
     const shift = localDate.getMinutes() + offset + 540
     localDate.setMinutes(shift)
     this.localDay = localDate.getDate()
-    
+
     isEmpty() {
       return this.author === ""
     }
@@ -60,7 +60,7 @@
         callback: value => {
           if(!value) { return }
           this.calendar().opts.deleteDay(this.day)
-          this.calendar().opts.refresh()
+          this.calendar().opts.refreshData()
         }
       })
     }
@@ -82,7 +82,7 @@
         const url = data.url
 
         this.calendar().opts.saveDay(day, author, title, url)
-        this.calendar().opts.refresh()
+        this.calendar().opts.refreshData()
       })
     }
 
