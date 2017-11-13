@@ -1,10 +1,36 @@
+// Initialize firebase
+const config = {
+  apiKey: "AIzaSyAiqGYAd5Cqa9R546LZFQHGk06K5FioAPk",
+  authDomain: "adventcalendar-f70f4.firebaseapp.com",
+  databaseURL: "https://adventcalendar-f70f4.firebaseio.com",
+  messagingSenderId: "1044702803525"
+}
+firebase.initializeApp(config)
+// Initialize Done firebase
+
 // CRUD functions with firebase
+const saveData = (day, author, title, url) => {
+  firebase.database().ref(`days/${day - 1}`).set({
+    day: day,
+    uid: adventCalendar.uid,
+    author: author,
+    title: title,
+    url: url || ""
+  })
+}
+
+const deleteData = day => {
+  firebase.database().ref(`days/${day - 1}`).remove()
+}
+
 const refresh = () => {
-  return $.getJSON("/data.json").then(items => {
-    items.forEach(week => {
-      week.days.forEach(day => day.date = new Date(day.date))
-    })
-    adventCalendar.items = items
+  return firebase.database().ref("/days").once("value").then(snap => {
+    const items = []
+    const obj = snap.val()
+    for (let key in obj) {
+      items.push(obj[key])
+    }
+    adventCalendar.items = buildItems(items)
     saveCache(adventCalendar.items)
     renderApp()
   })
@@ -30,6 +56,22 @@ const loadCache = () => {
   return null
 }
 
+// Auth
+const provider = new firebase.auth.GoogleAuthProvider()
+
+const signIn = () => {
+  firebase.auth().signInWithRedirect(provider).then(result => {
+    adventCalendar.uid = result.user.uid
+  }).catch(console.log)
+}
+
+const signOut = () => {
+  firebase.auth().signOut().then(() => {
+    console.log("Success log out")
+  }, console.log)
+}
+// End Auth
+
 // Utility
 const factoryDefaultItems = givenYear => {
   const year = givenYear
@@ -53,15 +95,61 @@ const factoryDefaultItems = givenYear => {
   }
 }
 
+const groupItemsByWeek = items => {
+  const weeks = []
+  while(items.length !== 0) {
+    weeks.push({days: items.splice(0, 7)})
+  }
+  return weeks
+}
+
+const buildItems = fetchedItems => {
+  const items = defaultItems()
+  const ensuredFetchedItems = fetchedItems || []
+  const offset = 30 - items[0].date.getDate()
+
+  for(let i=0; i!= ensuredFetchedItems.length; i++) {
+    const item = ensuredFetchedItems[i] 
+    const index = item.day * 1 + offset
+    const { date } = items[index]
+    items[index] = item
+    item.date = date
+  }
+
+  return groupItemsByWeek(items)
+}
+// End Utility
+
+// Setup Form
+const openForm = (defaultData, cb) => {
+  vex.dialog.open({
+    showCloseButton: false,
+    message: "필요한 정보를 입력해주세요.",
+    input: [
+      `<input name="author" type="text" placeholder="이름" value="${defaultData.author}" required />`,
+      `<input name="title" type="text" placeholder="제목" value="${defaultData.title}" required />`,
+      `<input name="url" type="text" placeholder="URL" value="${defaultData.url}"/>`
+    ].join(""),
+    buttons: [
+      {text: "예약하기", type: "submit", className: "vex-dialog-button-primary", click: vex.dialog.buttons.YES.click},
+      {text: "취소하기", type: "button", className: "vex-dialog-button-secondary", click: vex.dialog.buttons.NO.click}
+    ],
+    callback: cb
+  })
+}
+
 const renderApp = () => {
   const uid = adventCalendar.uid
   const items = adventCalendar.items
 
-  riot.mount("header-nav")
+  riot.mount("header-nav", { signIn: signIn, signOut: signOut, uid: uid })
   riot.mount("calendar", {
     items: items,
     uid: uid,
-    refresh: refresh
+    saveDay: saveData,
+    deleteDay: deleteData,
+    refresh: refresh,
+    openForm: openForm
   })
 }
 
@@ -76,4 +164,13 @@ const defaultItems = factoryDefaultItems(adventCalendar.currentYear)
 // Trigger app start
 adventCalendar.items = loadCache()
 renderApp()
-refresh()
+
+// Login process triggered
+firebase.auth().onAuthStateChanged(user => {
+  if (user) {
+    adventCalendar.uid = user.uid
+  } else {
+    adventCalendar.uid = null
+  }
+  refresh()
+})

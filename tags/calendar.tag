@@ -29,5 +29,6 @@
   <script>
     this.items = opts.items
     this.uid = opts.uid
+    this.openForm = opts.openForm
   </script>
 </calendar>
