@@ -20,9 +20,10 @@ const authUser = () => {
   }).then(json => {
     if (json.access_token) {
       window.localStorage.setItem('token', json.access_token)
-      window.localStorage.setItem('expired_at', Number(new Date()) + json.expired_in * 1000)
+      window.localStorage.setItem('expired_at', Number(new Date()) + json.expires_in * 1000)
       window.localStorage.removeItem('code')
       window.localStorage.removeItem('state')
+      accountInfo()
     }
   })
 }
@@ -221,3 +222,6 @@ const defaultItems = factoryDefaultItems(adventCalendar.currentYear)
 adventCalendar.items = loadCache()
 renderApp()
 refreshData()
+if (localStorage.getItem('code')) {
+  authUser()
+}
