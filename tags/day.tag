@@ -7,16 +7,16 @@
       <a href="#" onclick={ openForm }>예약하기</a>
     </div>
     <div class="cell-body" if={ this.isAdvent() && this.isPublic() && !isEmpty() }>
-      { author }님<br>
-      <a href={url} target="_blank" class={text-strike: this.isPunked()}>{title}</a><br>
+      { username }님<br>
+      <a href={link} target="_blank" class={text-strike: this.isPunked()}>{subject}</a><br>
       <span class="text-small" if={ isOwned() }>
         <a href="#" onclick={ openForm }>고치기</a> /
         <a href="#" onclick={ delete }>취소하기</a>
       </span>
     </div>
     <div class="cell-body" if={ this.isAdvent() && !this.isPublic() && !isEmpty() }>
-      { author }님<br>
-      {title}<br>
+      { username }님<br>
+      { subject }<br>
       <span class="text-small" if={ isOwned() }>
         <a href="#" onclick={ openForm }>고치기</a> /
         <a href="#" onclick={ delete }>취소하기</a>
@@ -34,11 +34,11 @@
     this.localDay = localDate.getDate()
 
     isEmpty() {
-      return this.author === ""
+      return this.username === ""
     }
 
     isPunked() {
-      return this.url === ""
+      return this.link === ""
     }
 
     isAdvent() {
@@ -59,8 +59,7 @@
         message: "정말로 취소하시겠어요?",
         callback: value => {
           if(!value) { return }
-          this.calendar().opts.deleteDay(this.day)
-          this.calendar().opts.refreshData()
+          this.calendar().opts.deleteDay(this.id)
         }
       })
     }
@@ -69,20 +68,21 @@
       if(!this.calendar().username) { vex.dialog.alert("로그인해주세요."); return }
 
       const data = {
-        author: this.author || "",
-        title: this.title || "",
-        url: this.url || ""
+        subject: this.subject || "",
+        link: this.link || ""
       }
 
       this.calendar().openForm(data, data => {
         if (!data) { return }
         const day = this.day
-        const author = data.author
-        const title = data.title
-        const url = data.url
+        const subject = data.subject
+        const link = data.link
 
-        this.calendar().opts.saveDay(day, author, title, url)
-        this.calendar().opts.refreshData()
+        if (this.id) {
+          this.calendar().opts.updateDay(this.id, day, subject, link)
+        } else {
+          this.calendar().opts.saveDay(day, subject, link)
+        }
       })
     }
 

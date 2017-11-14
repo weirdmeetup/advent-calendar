@@ -48,48 +48,76 @@ const accountInfo = () => {
 }
 
 // CRUD functions
-const saveData = (day, author, title, url) => {
+const saveData = (day, subject, link) => {
+  const dayStr = day < 10 ? `0${day}` : day
+
+  const data = new FormData();
+  data.append('booked_at', `${adventCalendar.currentYear}-12-${dayStr}`)
+  data.append('subject', subject)
+  data.append('link', link || '')
+
   return fetch(
-    `https://www.weirdx.io/api/advent/${adventCalendar.slug}/devotions`,
+    `https://www.weirdx.io/api/advent/${adventCalendar.slug}/devotions/`,
     {
       method: 'POST',
       mode: 'cors',
       headers: new Headers({
-        Authorization: `Bearer ${adventCalendar.token}`
+        Authorization: `Bearer ${window.localStorage.getItem('token')}`
       }),
-      body: {
-        booked_at: day,
-        subject: title,
-        link: url || ""
-      }
+      body: data
     }
-  )
+  ).then(res => {
+    refreshData()
+  })
 }
 
-const deleteData = day => {
+const updateData = (id, day, subject, link) => {
+  const dayStr = day < 10 ? `0${day}` : day
+
+  const data = new FormData();
+  data.append('booked_at', `${adventCalendar.currentYear}-12-${dayStr}`)
+  data.append('subject', subject)
+  data.append('link', link || '')
+
   return fetch(
-    `https://www.weirdx.io/api/advent/${adventCalendar.slug}/devotions/${day}`,
+    `https://www.weirdx.io/api/advent/${adventCalendar.slug}/devotions/${id}/`,
+    {
+      method: 'PUT',
+      mode: 'cors',
+      headers: new Headers({
+        Authorization: `Bearer ${window.localStorage.getItem('token')}`
+      }),
+      body: data
+    }
+  ).then(() => {
+    refreshData()
+  })
+}
+
+const deleteData = id => {
+  return fetch(
+    `https://www.weirdx.io/api/advent/${adventCalendar.slug}/devotions/${id}/`,
     {
       method: 'DELETE',
       mode: 'cors',
       headers: new Headers({
-        Authorization: `Bearer ${adventCalendar.token}`
+        Authorization: `Bearer ${window.localStorage.getItem('token')}`
       })
     }
-  )
+  ).then(() => {
+    refreshData()
+  })
 }
 
 const refreshData = () => {
-  return fetch('https://www.weirdx.io/api/advent/').then(res => {
+  return fetch(`https://www.weirdx.io/api/advent/${adventCalendar.slug}/devotions/`).then(res => {
     return res.json()
-  }).then(obj => {
-    const currentCalendar = obj[0]
+  }).then(devotions => {
     const items = []
 
-    for (let key in currentCalendar.devotions) {
-      items.push(obj[key])
+    for (let key in devotions) {
+      items.push(devotions[key])
     }
-    adventCalendar.slug = currentCalendar.slug
     adventCalendar.items = buildItems(items)
     saveCache(adventCalendar.items)
     renderApp()
@@ -118,7 +146,8 @@ const loadCache = () => {
 
 // Auth
 const signOut = () => {
-  localStorage.setItem('token', null)
+  localStorage.removeItem('token')
+  localStorage.removeItem('username')
   adventCalendar.username = null
   refreshData()
 }
@@ -139,7 +168,9 @@ const factoryDefaultItems = givenYear => {
       arr.push({
         date: new Date(startDate.getTime()),
         day: startDate.getDate(),
-        author: "", title: "", url: ""
+        username: "",
+        subject: "",
+        link: ""
       })
       startDate.setDate(startDate.getDate() + 1)
     }
@@ -160,12 +191,14 @@ const buildItems = fetchedItems => {
   const ensuredFetchedItems = fetchedItems || []
   const offset = 30 - items[0].date.getDate()
 
-  for(let i=0; i!= ensuredFetchedItems.length; i++) {
+  for(let i = 0; i != ensuredFetchedItems.length; i++) {
     const item = ensuredFetchedItems[i]
-    const index = item.day * 1 + offset
+    const day = Number(item.booked_at.split('-')[2])
+    const index = day + offset
     const { date } = items[index]
     items[index] = item
     item.date = date
+    item.day = day
   }
 
   return groupItemsByWeek(items)
@@ -174,19 +207,18 @@ const buildItems = fetchedItems => {
 
 // Setup Form
 const openForm = (defaultData, cb) => {
-  vex.dialog.open({
+  dialog = vex.dialog.open({
     showCloseButton: false,
     message: "필요한 정보를 입력해주세요.",
     input: [
-      `<input name="author" type="text" placeholder="이름" value="${defaultData.author}" required />`,
-      `<input name="title" type="text" placeholder="제목" value="${defaultData.title}" required />`,
-      `<input name="url" type="text" placeholder="URL" value="${defaultData.url}"/>`
+      `<input name="subject" type="text" placeholder="제목" value="${defaultData.subject}" required />`,
+      `<input name="link" type="text" placeholder="URL" value="${defaultData.link}"/>`
     ].join(""),
     buttons: [
       {text: "예약하기", type: "submit", className: "vex-dialog-button-primary", click: vex.dialog.buttons.YES.click},
       {text: "취소하기", type: "button", className: "vex-dialog-button-secondary", click: vex.dialog.buttons.NO.click}
     ],
-    callback: cb
+    callback: cb,
   })
 }
 
@@ -202,8 +234,8 @@ const renderApp = () => {
     items: items,
     username: username,
     saveDay: saveData,
+    updateDay: updateData,
     deleteDay: deleteData,
-    refreshData: refreshData,
     openForm: openForm,
   })
 }
@@ -214,7 +246,8 @@ const adventCalendar = {
   items: null,
   slug: null,
   token: null,
-  currentYear: 2017
+  currentYear: 2017,
+  slug: '2017-normal-advent'
 }
 const defaultItems = factoryDefaultItems(adventCalendar.currentYear)
 
@@ -224,4 +257,7 @@ renderApp()
 refreshData()
 if (localStorage.getItem('code')) {
   authUser()
+  if (localStorage.getItem('username')) {
+    adventCalendar.username = localStorage.getItem('username')
+  }
 }
