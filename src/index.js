@@ -21,8 +21,27 @@ const authUser = () => {
     if (json.access_token) {
       window.localStorage.setItem('token', json.access_token)
       window.localStorage.setItem('expired_at', Number(new Date()) + json.expired_in * 1000)
-      window.localStorage.setItem('code', null)
-      window.localStorage.setItem('state', null)
+      window.localStorage.removeItem('code')
+      window.localStorage.removeItem('state')
+    }
+  })
+}
+
+// Account info
+const accountInfo = () => {
+  return fetch(
+    `https://www.weirdx.io/api/account/info`,
+    {
+      method: 'GET',
+      headers: new Headers({
+        Authorization: `Bearer ${window.localStorage.getItem('token')}`
+      }),
+    }
+  ).then(res => {
+    return res.json()
+  }).then(json => {
+    if (json.username) {
+      window.localStorage.setItem('username', json.username)
     }
   })
 }
@@ -99,7 +118,7 @@ const loadCache = () => {
 // Auth
 const signOut = () => {
   localStorage.setItem('token', null)
-  adventCalendar.uid = null
+  adventCalendar.username = null
   refreshData()
 }
 // End Auth
@@ -171,16 +190,16 @@ const openForm = (defaultData, cb) => {
 }
 
 const renderApp = () => {
-  const uid = adventCalendar.uid
+  const username = adventCalendar.username
   const items = adventCalendar.items
 
   riot.mount("header-nav", {
     signOut: signOut,
-    uid: uid,
+    username: username,
   })
   riot.mount("calendar", {
     items: items,
-    uid: uid,
+    username: username,
     saveDay: saveData,
     deleteDay: deleteData,
     refreshData: refreshData,
@@ -190,7 +209,7 @@ const renderApp = () => {
 
 // Init app
 const adventCalendar = {
-  uid: localStorage.getItem('uid') || null,
+  username: localStorage.getItem('username') || null,
   items: null,
   slug: null,
   token: null,

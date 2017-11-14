@@ -28,7 +28,7 @@
 
   <script>
     this.items = opts.items
-    this.uid = opts.uid
+    this.username = opts.username
     this.openForm = opts.openForm
   </script>
 </calendar>

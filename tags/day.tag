@@ -51,7 +51,7 @@
     }
 
     isOwned() {
-      return this.calendar().uid === this.uid
+      return this.calendar().username === this.username
     }
 
     delete() {
@@ -66,7 +66,7 @@
     }
 
     openForm() {
-      if(!this.calendar().uid) { vex.dialog.alert("로그인해주세요."); return }
+      if(!this.calendar().username) { vex.dialog.alert("로그인해주세요."); return }
 
       const data = {
         author: this.author || "",
