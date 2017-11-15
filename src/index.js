@@ -4,7 +4,7 @@ const authUser = () => {
   data.append('client_id', '6BiCpLw9xpCxdjleWXSB1jsapi3vndsMIbmMmRJS')
   data.append('client_secret', 'VSP60KtPaBLAuY7pQ2FUH9j0r12CvDfbfOzeBJejoK5bdlpmUbc44tWrkIwIb0gs9yo1vBthNxC0srdEix4QCqF6DiPQH3jshk3JXwssA5Cz6TR40fuI4I5xpjcK5F63')
   data.append('grant_type', 'authorization_code')
-  data.append('redirect_uri', 'https://1225.weirdx.io/callback.html')
+  data.append('redirect_uri', 'http://localhost:8000/callback.html')
   data.append('code', window.localStorage.getItem('code'))
   data.append('state', window.localStorage.getItem('state'))
 
@@ -80,6 +80,8 @@ const accountInfo = () => {
   }).then(json => {
     if (json.username) {
       window.localStorage.setItem('username', json.username)
+    } else {
+      signOut()
     }
   })
 }
@@ -303,4 +305,6 @@ if (localStorage.getItem('code')) {
   refreshToken().then(() => {
     renderApp()
   })
+} else {
+  accountInfo()
 }
