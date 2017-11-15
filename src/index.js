@@ -19,11 +19,48 @@ const authUser = () => {
     return res.json()
   }).then(json => {
     if (json.access_token) {
-      window.localStorage.setItem('token', json.access_token)
+      window.localStorage.setItem('access_token', json.access_token)
+      window.localStorage.setItem('refresh_token', json.refresh_token)
       window.localStorage.setItem('expired_at', Number(new Date()) + json.expires_in * 1000)
       window.localStorage.removeItem('code')
       window.localStorage.removeItem('state')
       accountInfo()
+    }
+  })
+}
+
+const isTokenExpired = () => {
+  if (!window.localStorage.getItem('access_token')) { return false }
+  if (!window.localStorage.getItem('expired_at')) { return false }
+  if (!window.localStorage.getItem('refresh_token')) { return false }
+
+  const expiredAt = window.localStorage.getItem('expired_at')
+  if (Number(expiredAt) > Number(new Date)) { return false }
+  return true
+}
+
+const refreshToken = () => {
+  const data = new FormData();
+  data.append('client_id', '6BiCpLw9xpCxdjleWXSB1jsapi3vndsMIbmMmRJS')
+  data.append('client_secret', 'VSP60KtPaBLAuY7pQ2FUH9j0r12CvDfbfOzeBJejoK5bdlpmUbc44tWrkIwIb0gs9yo1vBthNxC0srdEix4QCqF6DiPQH3jshk3JXwssA5Cz6TR40fuI4I5xpjcK5F63')
+  data.append('grant_type', 'refresh_token')
+  data.append('redirect_uri', 'http://localhost:8000/callback.html')
+  data.append('refresh_token', window.localStorage.getItem('refresh_token'))
+
+  return fetch(
+    'https://www.weirdx.io/api/o/token/',
+    {
+      method: 'POST',
+      mode: 'cors',
+      body: data
+    }
+  ).then(res => {
+    return res.json()
+  }).then(json => {
+    if (json.access_token) {
+      window.localStorage.setItem('access_token', json.access_token)
+      window.localStorage.setItem('refresh_token', json.refresh_token)
+      window.localStorage.setItem('expired_at', Number(new Date()) + json.expires_in * 1000)
     }
   })
 }
@@ -35,7 +72,7 @@ const accountInfo = () => {
     {
       method: 'GET',
       headers: new Headers({
-        Authorization: `Bearer ${window.localStorage.getItem('token')}`
+        Authorization: `Bearer ${window.localStorage.getItem('access_token')}`
       }),
     }
   ).then(res => {
@@ -62,7 +99,7 @@ const saveData = (day, subject, link) => {
       method: 'POST',
       mode: 'cors',
       headers: new Headers({
-        Authorization: `Bearer ${window.localStorage.getItem('token')}`
+        Authorization: `Bearer ${window.localStorage.getItem('access_token')}`
       }),
       body: data
     }
@@ -85,7 +122,7 @@ const updateData = (id, day, subject, link) => {
       method: 'PUT',
       mode: 'cors',
       headers: new Headers({
-        Authorization: `Bearer ${window.localStorage.getItem('token')}`
+        Authorization: `Bearer ${window.localStorage.getItem('access_token')}`
       }),
       body: data
     }
@@ -101,7 +138,7 @@ const deleteData = id => {
       method: 'DELETE',
       mode: 'cors',
       headers: new Headers({
-        Authorization: `Bearer ${window.localStorage.getItem('token')}`
+        Authorization: `Bearer ${window.localStorage.getItem('access_token')}`
       })
     }
   ).then(() => {
@@ -146,7 +183,8 @@ const loadCache = () => {
 
 // Auth
 const signOut = () => {
-  localStorage.removeItem('token')
+  localStorage.removeItem('access_token')
+  localStorage.removeItem('refresh_token')
   localStorage.removeItem('username')
   adventCalendar.username = null
   refreshData()
@@ -245,19 +283,24 @@ const adventCalendar = {
   username: localStorage.getItem('username') || null,
   items: null,
   slug: null,
-  token: null,
   currentYear: 2017,
   slug: '2017-normal-advent'
 }
 const defaultItems = factoryDefaultItems(adventCalendar.currentYear)
 
-// Trigger app start
+// App start
 adventCalendar.items = loadCache()
 renderApp()
 refreshData()
+
+// Redirected from callback
 if (localStorage.getItem('code')) {
   authUser()
   if (localStorage.getItem('username')) {
     adventCalendar.username = localStorage.getItem('username')
   }
+} else if (isTokenExpired()) {
+  refreshToken().then(() => {
+    renderApp()
+  })
 }
