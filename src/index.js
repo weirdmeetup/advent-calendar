@@ -106,7 +106,10 @@ const saveData = (day, subject, link) => {
       body: data
     }
   ).then(res => {
-    refreshData()
+    return res.json()
+  }).then(json => {
+    if (!json.error_code) { refreshData() }
+    return json
   })
 }
 
@@ -128,8 +131,11 @@ const updateData = (id, day, subject, link) => {
       }),
       body: data
     }
-  ).then(() => {
-    refreshData()
+  ).then(res => {
+    return res.json()
+  }).then(json => {
+    if (!json.error_code) { refreshData() }
+    return json
   })
 }
 
@@ -247,18 +253,34 @@ const buildItems = fetchedItems => {
 
 // Setup Form
 const openForm = (defaultData, cb) => {
-  dialog = vex.dialog.open({
+  const dialog = vex.dialog.open({
     showCloseButton: false,
     message: "필요한 정보를 입력해주세요.",
     input: [
-      `<input name="subject" type="text" placeholder="제목" value="${defaultData.subject}" required />`,
-      `<input name="link" type="text" placeholder="URL" value="${defaultData.link}"/>`
+      `<input name="subject" autocomplete="off" type="text" placeholder="제목" value="${defaultData.subject}" required />`,
+      `<input name="link" autocomplete="off" type="text" placeholder="URL" value="${defaultData.link}"/>`
     ].join(""),
     buttons: [
       {text: "예약하기", type: "submit", className: "vex-dialog-button-primary", click: vex.dialog.buttons.YES.click},
       {text: "취소하기", type: "button", className: "vex-dialog-button-secondary", click: vex.dialog.buttons.NO.click}
     ],
-    callback: cb,
+    onSubmit: (e) => {
+      e.preventDefault()
+      e.stopPropagation()
+      const subject = document.getElementsByName('subject')[0].value
+      const link = document.getElementsByName('link')[0].value
+      cb({subject, link}).then(json => {
+        if (!json.error_code) { dialog.close() }
+        else {
+          if (!document.getElementById('error-message')) {
+            const div = document.getElementsByClassName('vex-dialog-message')[0]
+            div.outerHTML += '<p id="error-message">asdfasdfasdf</p>'
+          }
+          document.getElementById('error-message').innerText = json.error_message
+        }
+        return json
+      })
+    },
   })
 }
 

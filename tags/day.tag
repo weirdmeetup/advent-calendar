@@ -72,16 +72,16 @@
         link: this.link || ""
       }
 
-      this.calendar().openForm(data, data => {
-        if (!data) { return }
+      this.calendar().openForm(data, newData => {
+        if (!newData) { return }
         const day = this.day
-        const subject = data.subject
-        const link = data.link
+        const subject = newData.subject
+        const link = newData.link
 
         if (this.id) {
-          this.calendar().opts.updateDay(this.id, day, subject, link)
+          return this.calendar().opts.updateDay(this.id, day, subject, link)
         } else {
-          this.calendar().opts.saveDay(day, subject, link)
+          return this.calendar().opts.saveDay(day, subject, link)
         }
       })
     }
