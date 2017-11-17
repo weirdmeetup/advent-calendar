@@ -155,7 +155,14 @@ const deleteData = id => {
 }
 
 const refreshData = () => {
-  return fetch(`https://www.weirdx.io/api/advent/${adventCalendar.slug}/devotions/`).then(res => {
+  const options = {}
+  if (window.localStorage.getItem('access_token')) {
+    options.headers = new Headers({
+      Authorization: `Bearer ${window.localStorage.getItem('access_token')}`
+    })
+  }
+
+  return fetch(`https://www.weirdx.io/api/advent/${adventCalendar.slug}/devotions/`, options).then(res => {
     return res.json()
   }).then(devotions => {
     const items = []
