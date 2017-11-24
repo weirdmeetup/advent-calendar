@@ -80,6 +80,8 @@ const accountInfo = () => {
   }).then(json => {
     if (json.username) {
       window.localStorage.setItem('username', json.username)
+      adventCalendar.username = localStorage.getItem('username')
+      renderApp()
     } else {
       signOut()
     }
@@ -201,6 +203,7 @@ const signOut = () => {
   localStorage.removeItem('access_token')
   localStorage.removeItem('refresh_token')
   localStorage.removeItem('username')
+  localStorage.removeItem('expired_at')
   adventCalendar.username = null
   refreshData()
 }
@@ -334,6 +337,6 @@ if (localStorage.getItem('code')) {
   refreshToken().then(() => {
     renderApp()
   })
-} else {
+} else if (localStorage.getItem('token')) {
   accountInfo()
 }
