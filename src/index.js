@@ -44,7 +44,7 @@ const refreshToken = () => {
   data.append('client_id', '6BiCpLw9xpCxdjleWXSB1jsapi3vndsMIbmMmRJS')
   data.append('client_secret', 'VSP60KtPaBLAuY7pQ2FUH9j0r12CvDfbfOzeBJejoK5bdlpmUbc44tWrkIwIb0gs9yo1vBthNxC0srdEix4QCqF6DiPQH3jshk3JXwssA5Cz6TR40fuI4I5xpjcK5F63')
   data.append('grant_type', 'refresh_token')
-  data.append('redirect_uri', 'http://localhost:8000/callback.html')
+  data.append('redirect_uri', 'https://1225.weirdx.io/callback.html')
   data.append('refresh_token', window.localStorage.getItem('refresh_token'))
 
   return fetch(
