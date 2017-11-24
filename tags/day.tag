@@ -31,7 +31,7 @@
     const offset = localDate.getTimezoneOffset()
     const shift = localDate.getMinutes() + offset + 540
     localDate.setMinutes(shift)
-    this.localDay = localDate.getDate()
+    this.localDate = localDate
 
     isEmpty() {
       return this.username === ""
@@ -47,7 +47,7 @@
     }
 
     isPublic() {
-      return this.date.getDate() <= this.localDay
+      return Number(this.date) <= Number(this.localDate)
     }
 
     isOwned() {

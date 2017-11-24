@@ -221,8 +221,10 @@ const factoryDefaultItems = givenYear => {
 
     const arr = []
     for(let i=0; i != dayCount; i++) {
+      const date = new Date(startDate.getTime())
+      date.setHours(0)
       arr.push({
-        date: new Date(startDate.getTime()),
+        date: date,
         day: startDate.getDate(),
         username: "",
         subject: "",
