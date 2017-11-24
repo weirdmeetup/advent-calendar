@@ -68,7 +68,7 @@ const refreshToken = () => {
 // Account info
 const accountInfo = () => {
   return fetch(
-    `https://www.weirdx.io/api/account/info`,
+    'https://www.weirdx.io/api/account/info/',
     {
       method: 'GET',
       headers: new Headers({
