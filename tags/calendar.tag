@@ -22,7 +22,7 @@
       <img src="./src/img/weird-logo.png" class="img-banner">
     </a>
     <p>
-      Developed by <b>shia∙minieetea</b>
+      Developed by <b>haruair∙shia∙minieetea</b>
     </p>
   </div>
 
