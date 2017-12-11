@@ -38,7 +38,7 @@
     }
 
     isPunked() {
-      return this.link === ""
+      return this.link === "" || this.link === null
     }
 
     isAdvent() {
