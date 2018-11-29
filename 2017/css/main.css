@@ -1,0 +1,317 @@
+.float-right {
+  float: right;
+}
+
+.float-left {
+  float: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-small {
+  font-size: 90%;
+}
+
+.text-strike {
+  text-decoration: line-through;
+}
+
+.two.columns {
+  margin-left: 7px;
+}
+
+body {
+  background-color: #F8F7E7;
+  color: #eee;
+  font-family: sans-serif;
+  background-image: url(../src/img/corner-bg.png);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: 100%;
+}
+
+a {
+  text-decoration: none;
+}
+
+.container {
+  background-color: rgba(255,255,255,0.5);
+  padding: 20px;
+}
+
+.button {
+}
+
+.topic {
+  color: #ff6873;
+  font-size: 110%;
+}
+
+.explain-section {
+  padding: 0px 48px;
+  margin: 2px;
+}
+
+/* accodian */
+.transition,
+.explain-section p,
+.explain-section ul li i:before,
+.explain-section ul li i:after {
+  transition: all 0.25s ease-in-out;
+}
+
+.flipIn, .explain-section h1, .explain-section ul li {
+  animation: flipdown 0.5s ease both;
+}
+
+.explain-section .no-select, .explain-section h2 {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.explain-section h1, .explain-section h2 {
+  color: #000000;
+}
+
+.explain-section h1 {
+  text-transform: uppercase;
+  font-size: 36px;
+  line-height: 42px;
+  letter-spacing: 3px;
+  font-weight: 100;
+}
+
+.explain-section h2 {
+  font-size: 17px;
+  line-height: 34px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  display: block;
+  margin: 0;
+  cursor: pointer;
+}
+
+.explain-section p {
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 17px;
+  line-height: 22px;
+  letter-spacing: -0.2px;
+  position: relative;
+  overflow: hidden;
+  max-height: 800px;
+  opacity: 1;
+  transform: translate(0, 0);
+  margin-top: 10px;
+  z-index: 2;
+}
+
+.explain-section ul {
+  list-style: none;
+  perspective: 900;
+  padding: 0;
+  margin: 0;
+  list-style-image: url(../src/img/icon-santa.png);
+}
+.explain-section ul li {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  padding-bottom: 4px;
+  padding-top: 18px;
+  border-top: 1px dotted #dce7eb;
+}
+.explain-section ul li:nth-of-type(1) {
+  animation-delay: 0.5s;
+}
+.explain-section ul li:nth-of-type(2) {
+  animation-delay: 0.75s;
+}
+.explain-section ul li:nth-of-type(3) {
+  animation-delay: 1s;
+}
+.explain-section ul li:nth-of-type(4) {
+  animation-delay: 1.25s;
+}
+.explain-section ul li:last-of-type {
+  padding-bottom: 0;
+}
+.explain-section ul li i {
+  position: absolute;
+  transform: translate(-6px, 0);
+  margin-top: 16px;
+  right: 0;
+}
+.explain-section ul li i:before, .explain-section ul li i:after {
+  content: "";
+  position: absolute;
+  background-color: #ff6873;
+  width: 3px;
+  height: 9px;
+}
+.explain-section ul li i:before {
+  transform: translate(-2px, 0) rotate(45deg);
+}
+.explain-section ul li i:after {
+  transform: translate(2px, 0) rotate(-45deg);
+}
+.explain-section ul li input[type=checkbox] {
+  position: absolute;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0;
+}
+.explain-section ul li input[type=checkbox]:checked ~ p {
+  margin-top: 0;
+  max-height: 0;
+  opacity: 0;
+  transform: translate(0, 50%);
+}
+u.explain-section l li input[type=checkbox]:checked ~ i:before {
+  transform: translate(2px, 0) rotate(45deg);
+}
+u.explain-section l li input[type=checkbox]:checked ~ i:after {
+  transform: translate(-2px, 0) rotate(-45deg);
+}
+
+@keyframes flipdown {
+  0% {
+    opacity: 0;
+    transform-origin: top center;
+    transform: rotateX(-90deg);
+  }
+  5% {
+    opacity: 1;
+  }
+  80% {
+    transform: rotateX(8deg);
+  }
+  83% {
+    transform: rotateX(6deg);
+  }
+  92% {
+    transform: rotateX(-3deg);
+  }
+  100% {
+    transform-origin: top center;
+    transform: rotateX(0deg);
+  }
+}
+ 
+/* header-nav */
+.navbar {
+  width: inherit;
+}
+
+/* calendar */
+table a {
+  color: #007D59;
+}
+
+table a:hover {
+  color: #00FFB5;
+}
+
+table {
+  display: table;
+  border-collapse: initial;
+  width: 100%;
+  padding: 2px;
+}
+
+thead tr {
+  width: 100px;
+  height: 30px;
+  background-color: #B74053;
+}
+
+thead tr td {
+  padding: 7px;
+  text-align: center;
+}
+
+.img-banner {
+  margin: auto;
+  max-width: 169px;
+  padding-top: 2em;
+}
+
+.served-by {
+  color: black;
+}
+
+/* week */
+.cell {
+  background-color: white;
+  min-height: 80px;
+  padding: 0px;
+  vertical-align: top;
+  width: 100px;
+}
+
+/* day */
+.cell-header {
+  padding: 7px;
+  background-color: #EA4C5C;
+  color: white;
+}
+
+.cell-body {
+  padding: 8px;
+  min-height: 80px;
+  color: black;
+}
+
+/* Table: mobile */
+@media screen and (max-width: 800px) {
+  table,
+  tbody,
+  tr,
+  th,
+  td {
+    display: block;
+    width: auto;
+  }
+  thead {
+    display: none;
+  }
+  td.cell {
+    width: auto;
+  }
+  td.cell .cell-header:before {
+    color: #ddd;
+    text-transform: uppercase;
+    padding: 0.1em 0.5em;
+    font-size: 0.8em;
+    margin-right: 0.5em;
+    background: #760E10;
+    border-radius: 5px;
+    width: 2.5em;
+    text-align: center;
+    display: inline-block;
+  }
+
+  td.cell:nth-of-type(7n+1) .cell-header:before { content: "Sun"; color: #fff; background: red; }
+  td.cell:nth-of-type(7n+2) .cell-header:before { content: "Mon"; }
+  td.cell:nth-of-type(7n+3) .cell-header:before { content: "Tue"; }
+  td.cell:nth-of-type(7n+4) .cell-header:before { content: "Wed"; }
+  td.cell:nth-of-type(7n+5) .cell-header:before { content: "Thu"; }
+  td.cell:nth-of-type(7n+6) .cell-header:before { content: "Fri"; }
+  td.cell:nth-of-type(7n+7) .cell-header:before { content: "Sat"; color: #fff; background: blue; }
+
+  .cell-body {
+    min-height: 40px;
+  }
+}
