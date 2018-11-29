@@ -319,8 +319,8 @@ const adventCalendar = {
   username: localStorage.getItem('username') || null,
   items: null,
   slug: null,
-  currentYear: 2017,
-  slug: '2017-normal-advent'
+  currentYear: 2018,
+  slug: '2018-normal-advent'
 }
 const defaultItems = factoryDefaultItems(adventCalendar.currentYear)
 
