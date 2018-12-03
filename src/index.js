@@ -318,7 +318,6 @@ const renderApp = () => {
 const adventCalendar = {
   username: localStorage.getItem('username') || null,
   items: null,
-  slug: null,
   currentYear: 2018,
   slug: '2018-normal-advent'
 }
